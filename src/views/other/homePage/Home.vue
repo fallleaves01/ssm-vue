@@ -78,7 +78,7 @@ import { Edit } from '@element-plus/icons'
 import {removeToken} from '@/store/token';
 import {getLevel,setLevel,removeLevel} from '@/store/level'
 // import {getNumber,setNumber,removeNumber} from '@/store/number'
-import {GetInfo} from '@/utils/api/InfoApi'
+import {GetUserInfo} from '@/utils/api/InfoApi'
 export default{
   data(){
     return{
@@ -94,7 +94,7 @@ export default{
     let level=getLevel()
 
       let data={}
-      GetInfo(data).then(function(resp){
+      GetUserInfo(data).then(function(resp){
         level=resp.data.level;
         setLevel(level);
         vm.showJoin= ((resp.data.level==1)?true:false)
