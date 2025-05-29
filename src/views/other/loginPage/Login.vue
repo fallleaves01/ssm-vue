@@ -52,16 +52,6 @@
 
         <p v-show="this.regForm.pwd !== this.regForm.rpwd" class="password_info">密码不一致！</p>
 
-        <el-form-item label="学号/工号" prop="number">
-          <el-input  v-model="regForm.number"></el-input>
-        </el-form-item>
-
-        <el-form-item class="choose">
-          <el-radio-group v-model="regForm.level">
-            <el-radio label="teacher" />
-            <el-radio label="student" />
-          </el-radio-group>
-        </el-form-item>
       </div>
       <!-- 按钮盒子 -->
       <div class="btn-box">
@@ -79,8 +69,8 @@
       </div>
       <!-- 输入框盒子 -->
       <div class="input-box-login">
-        <el-form-item label="学号/工号" prop="number">
-          <el-input v-model="loginForm.number"></el-input>
+        <el-form-item label="用户名" prop="userName">
+          <el-input v-model="loginForm.userName"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pwd">
           <el-input type="password" v-model="loginForm.pwd"></el-input>
@@ -119,13 +109,13 @@ export default {
     return {
       flag : 0,
       loginForm: {
-        number: null,
+        userName: null,
         pwd: ''
       },
       loginRules: {
-        number: [
-          {required: true, message: '请输入学号/工号', trigger: 'blur'},
-          {min: 6, max: 10, message: '长度在6到10个数字', trigger: 'blur'}
+        userName: [
+          {required: true, message: '请输入用户名', trigger: 'blur'},
+          {min: 1, max: 10, message: '长度在1到9个字符', trigger: 'blur'}
         ],
         pwd: [
           {required: true, message: '请输入密码', trigger: 'blur'},
@@ -135,19 +125,12 @@ export default {
       regForm:{
         userName: '',
         pwd: '',
-        rpwd: '',
-        level: 0,
-        number: null,//学号工号
-        uid:''
+        rpwd: ''
       },
       regRules: {
         userName: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
           {min: 1, max: 9, message: '长度在1到9个字符', trigger: 'blur'}
-        ],
-        number: [
-          {required: true, message: '请输入学号/工号', trigger: 'blur'},
-          {min: 6, max: 10, message: '长度在6到10个数字', trigger: 'blur'}
         ],
         pwd: [
           {required: true, message: '请输入密码', trigger: 'blur'},
@@ -156,9 +139,6 @@ export default {
         rpwd: [
           {required: true, message: '请再次输入密码', trigger: 'blur'},
           {min: 1, max: 9, message: '长度在1到9个字符', trigger: 'blur'}
-        ],
-        level:[
-          {required: true, message: '请选择身份', trigger: 'blur'}
         ]
       },
     };
@@ -207,7 +187,7 @@ export default {
             }
           })*/
           let data = {
-            "number":this.loginForm.number,
+            "user_name":this.loginForm.user_name,
             "pwd":this.loginForm.pwd
           }
           login(data).then(function (resp) {
@@ -241,10 +221,8 @@ export default {
         if (valid) {
           console.log(this.regForm);
           let data = {
-            "userName":this.regForm.userName,
-            "pwd":this.regForm.pwd,
-            "level":this.regForm.level==="teacher"?2:1,
-            "number":this.regForm.number,
+            "user_name":this.regForm.userName,
+            "pwd":this.regForm.pwd
           }
           register(data).then(function (resp) {
             console.log(resp)
