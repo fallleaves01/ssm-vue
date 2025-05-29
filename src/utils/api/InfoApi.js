@@ -8,7 +8,7 @@ import { getToken } from '../../store/token'
 *
 */
 // 例如(post)：
-export function GetInfo(obj){
+export function GetUserInfo(obj){
 
     return request({
         url: '/user/getUserInfo',
@@ -17,7 +17,7 @@ export function GetInfo(obj){
     })
 }
 
-export function UpdateInfo(obj){
+export function UpdateUserInfo(obj){
     console.log(obj)
     return request({
         url: '/user/updateUserInfo',
