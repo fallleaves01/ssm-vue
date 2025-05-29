@@ -3,11 +3,11 @@
     <el-container class="home-container" >
       <el-header class="custom-header">
         <div class="title">
-          <span>同伴教学平台</span>
+          <span>XX拍卖平台</span>
         </div>
 
         <div class="user-info">
-          <span>{{userName}}({{number}})</span>
+          <span>{{userName}}</span>
           <el-button class="logout-button" @click="logout">退出登录</el-button>
         </div>
 
@@ -23,19 +23,19 @@
             
         <el-menu-item index="/myclass">
           <el-icon><UserFilled /></el-icon>
-          <span>我的课程</span>       
+          <span>我的商品</span>       
         </el-menu-item>
         <el-menu-item index="/joinclass" v-show="showJoin">
           <el-icon><UserFilled /></el-icon>
-          <span>加入课程</span>       
+          <span>加入竞拍</span>       
         </el-menu-item>
         <el-menu-item index="/allclass">
           <el-icon><Files /></el-icon>
-          <span>全部课程</span>
+          <span>全部商品</span>
         </el-menu-item>
         <el-menu-item index="/createclass" v-show="showCreate">
           <el-icon><Files /></el-icon>
-          <span>创建课程</span>
+          <span>创建商品</span>
         </el-menu-item>
         <el-menu-item index="/mymessage" >
           <el-icon><Position /></el-icon>
@@ -53,7 +53,7 @@
           <el-icon :size="20" color="hotpink">
             <Edit />
           </el-icon>
-          <span>个人题目列表</span>
+          <span>个人商品列表</span>
         </el-menu-item>
 
         
