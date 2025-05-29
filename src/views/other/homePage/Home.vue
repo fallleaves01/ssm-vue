@@ -77,7 +77,7 @@
 import { Edit } from '@element-plus/icons'
 import {removeToken} from '@/store/token';
 import {getLevel,setLevel,removeLevel} from '@/store/level'
-import {getNumber,setNumber,removeNumber} from '@/store/number'
+// import {getNumber,setNumber,removeNumber} from '@/store/number'
 import {GetInfo} from '@/utils/api/InfoApi'
 export default{
   data(){
@@ -85,7 +85,6 @@ export default{
       showJoin:null,
       showCreate:null,
       userName:'',
-      number:null,
     };
 
   },
@@ -93,18 +92,14 @@ export default{
 
     let vm=this
     let level=getLevel()
-    let number=getNumber()
 
       let data={}
       GetInfo(data).then(function(resp){
         level=resp.data.level;
-        number=resp.data.number;
         setLevel(level);
-        setNumber(number);
         vm.showJoin= ((resp.data.level==1)?true:false)
       vm.showCreate= resp.data.level==1 ?false:true
         vm.userName=resp.data.user_name
-        vm.number=resp.data.number
       })
       
     
@@ -122,7 +117,6 @@ export default{
     {
       removeToken();
       removeLevel();
-      removeNumber();
       this.$router.push("/loginPage");
     }
 
