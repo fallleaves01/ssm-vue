@@ -1,7 +1,7 @@
 <template>
     <div class="home">
       <div class="welcome-section">
-        <h1>Welcome to 同伴教学平台</h1>
+        <h1>Welcome to XX拍卖平台</h1>
         <p>Where Learning Meets Collaboration</p>
       </div>
     </div>
