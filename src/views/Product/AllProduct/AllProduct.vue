@@ -9,7 +9,7 @@
   <!-- <div v-if="showCreate" class="create-course-button">
     <el-button type="primary" @click="createCourse">创建课程</el-button>
   </div> -->
-  <div class="course-home">
+  <div class="product-home">
  <div>
     <div >
             <el-row>
@@ -27,20 +27,20 @@
         </div>
   </div>
   <!-- 全部课程列表 -->
-  <div class="course-list">
+  <div class="product-list">
     <el-row :gutter="20">
       <el-col :span="8" v-for="course in courseList" :key="course.id">
-        <el-card class="course-card" shadow="hover">
+        <el-card class="product-card" shadow="hover">
           <div slot="header">
-            <img :src="course.url" alt="课程封面" class="course-cover" />
+            <img :src="course.url" alt="商品图片" class="product-cover" />
           </div>
-          <div class="course-info">
+          <div class="product-info">
             <h2>{{ course.courseName }}</h2>
-            <p>教师：{{ course.userName }}</p>
+            <p>卖家：{{ course.userName }}</p>
             <p>{{ course.courseInfo }}</p>
           </div>
-          <div class="card-footer">
-            <el-button type="success" @click="JoinClass(course.courseId) " v-if="course.in==0&&level==1">加入课程</el-button>
+          <div class="product-footer">
+            <el-button type="success" @click="buyproduct(course.courseId) " v-if="course.in==0">加入竞拍</el-button>
           </div>
         </el-card>
       </el-col>
@@ -55,7 +55,7 @@
 <script>
 import { GetAllCourseList,SearchCourse } from '@/utils/api/AllClassApi'
 import { getLevel } from '@/store/level'
-import {JoinClass} from '@/utils/api/JoinClassApi'
+import {buyproduct} from '@/utils/api/JoinClassApi'
 
 import { Search} from '@element-plus/icons-vue'
 export default {
@@ -87,15 +87,15 @@ export default {
   },
   methods: {
     // createCourse() {
-    //   this.$router.push("/allclass/createclass")
+    //   this.$router.push("/allproduct/createproduct")
     // }
-    JoinClass(courseId)
+    buyproduct(courseId)
     {
       let that = this;
             let data = {
                 "courseId": courseId
             }
-            JoinClass(data).then(function(resp){
+            buyproduct(data).then(function(resp){
                     console.log(resp)
                     if(resp.data.status === 200)
                     {
@@ -121,32 +121,41 @@ export default {
 </script>
 
 <style scoped>
-.course-list {
+.product-list {
   padding: 20px;
 }
 
-.course-card {
+.product-card {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.course-cover {
+.product-cover {
   width: 100%;
   max-height: 200px;
   object-fit: cover;
 }
 
-.course-info {
+.product-info {
   padding: 20px;
   text-align: center;
 }
 
-.create-course-button {
+.product-info p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 最多显示2行 */
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+.create-product-button {
   margin: 20px 0;
   text-align: center;
 }
-.card-footer {
+.product-footer {
   margin-top: auto;
   margin-bottom: 10px; /* 调整底部距离 */
   display: flex;
@@ -154,7 +163,7 @@ export default {
   align-items: center;
 }
 /* 根据需要添加其他样式 */
-.course-home {
+.product-home {
   display: flex;
   flex-direction: column;
   align-items: center;

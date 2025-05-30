@@ -2,9 +2,9 @@
   <div class="post-detail-container">
     <el-breadcrumb class="breadcrumb">
       <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass' }">我的课程</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass/coursepage/forum/' + courseId + '/' + forumId }">论坛</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct' }">我的课程</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct/coursepage/forum/' + courseId + '/' + forumId }">论坛</el-breadcrumb-item>
       <el-breadcrumb-item>发表帖子</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="breadcrumb-separator"></div>
@@ -63,7 +63,7 @@ export default {
         if (resp.data.status === 200) {
           this.$message.success('帖子发布成功')
           // Redirect back to the forum page
-          this.$router.push("/myclass/coursepage/forum/"+this.courseId+"/"+this.forumId)
+          this.$router.push("/myproduct/coursepage/forum/"+this.courseId+"/"+this.forumId)
         } else {
           this.$message.error(resp.data.msg)
         }

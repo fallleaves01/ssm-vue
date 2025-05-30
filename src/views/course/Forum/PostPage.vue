@@ -2,9 +2,9 @@
   <div class="post-detail-container">
     <el-breadcrumb class="breadcrumb">
       <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass' }">我的课程</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass/coursepage/forum/' + courseId + '/' + forumId }">论坛</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct' }">我的课程</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct/coursepage/forum/' + courseId + '/' + forumId }">论坛</el-breadcrumb-item>
       <el-breadcrumb-item>帖子详情</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="breadcrumb-separator"></div>

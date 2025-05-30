@@ -2,8 +2,8 @@
     <div>
       <el-breadcrumb>
         <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/myclass' }">我的课程</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/myclass/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/myproduct' }">我的课程</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/myproduct/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
         <el-breadcrumb-item>题库</el-breadcrumb-item>
       </el-breadcrumb>
       <el-button type="primary" @click="CreateProblem" v-if="level==2">创建题目</el-button>
@@ -101,11 +101,11 @@
     methods: {
         CreateProblem()
         {
-            this.$router.push("/myclass/coursepage/createproblem/"+this.courseId)
+            this.$router.push("/myproduct/coursepage/createproblem/"+this.courseId)
         },
         ProblemInfo(problemId)
         {
-            this.$router.push('/myclass/coursepage/'+this.courseId+'/problemlist/problem/'+problemId)
+            this.$router.push('/myproduct/coursepage/'+this.courseId+'/problemlist/problem/'+problemId)
         },
         deleteProblem(problemId)
         {

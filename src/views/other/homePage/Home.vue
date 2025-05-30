@@ -21,19 +21,19 @@
 
         <el-menu active-text-color="#409eef" background-color="#bfd8d2" text-color="#fff" :router="true">
             
-        <el-menu-item index="/myclass">
+        <el-menu-item index="/myproduct">
           <el-icon><UserFilled /></el-icon>
           <span>我的商品</span>       
         </el-menu-item>
-        <el-menu-item index="/joinclass" v-show="showJoin">
+        <el-menu-item index="/buyproduct" v-show="showJoin">
           <el-icon><UserFilled /></el-icon>
           <span>加入竞拍</span>       
         </el-menu-item>
-        <el-menu-item index="/allclass">
+        <el-menu-item index="/allproduct">
           <el-icon><Files /></el-icon>
           <span>全部商品</span>
         </el-menu-item>
-        <el-menu-item index="/createclass" v-show="showCreate">
+        <el-menu-item index="/createproduct" v-show="showCreate">
           <el-icon><Files /></el-icon>
           <span>创建商品</span>
         </el-menu-item>

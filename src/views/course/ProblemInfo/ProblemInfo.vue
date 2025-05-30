@@ -2,9 +2,9 @@
 
     <el-breadcrumb >
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass'}" >我的课程</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass/coursepage/'+courseId}" v-if="$route.params.courseId>0">{{courseName}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{path:'/myclass/coursepage/problemlist/'+courseId}" >题库</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct'}" >我的课程</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct/coursepage/'+courseId}" v-if="$route.params.courseId>0">{{courseName}}</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{path:'/myproduct/coursepage/problemlist/'+courseId}" >题库</el-breadcrumb-item>
     <el-breadcrumb-item>问题详情</el-breadcrumb-item>
     </el-breadcrumb>
     <h1>题目详情</h1>

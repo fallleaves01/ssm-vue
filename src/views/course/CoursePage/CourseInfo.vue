@@ -1,8 +1,8 @@
 <template>
     <el-breadcrumb >
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass'}">我的课程</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass/coursepage/'+courseId}">{{courseName}}</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct'}">我的课程</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct/coursepage/'+courseId}">{{courseName}}</el-breadcrumb-item>
     <el-breadcrumb-item>课程信息</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -116,7 +116,7 @@ import {GetCoursePage} from '@/utils/api/CoursePageApi'
 import {ChangeCourseInfo} from '@/utils/api/CourseInfoApi'
 import {getLevel,setLevel,removeLevel} from '@/store/level'
 import { Delete, Download, Plus, ZoomIn ,Check} from '@element-plus/icons-vue'
-import {CreateClass,UploadPic} from '@/utils/api/CreateClassApi'
+import {createproduct,UploadPic} from '@/utils/api/CreateClassApi'
 export default{
     data(){
         return{
@@ -173,7 +173,7 @@ export default{
                 ChangeCourseInfo(data).then(function(resp){
                     if(resp.data.status==200){
                         vm.$message.success("修改成功")
-                        if(vm.fileList!==[])
+                        if(length(vm.fileList) > 0)
                         {
                             vm.$refs.upload.submit();
                             vm.fileList = [];

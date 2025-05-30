@@ -9,7 +9,7 @@
  <ul>
    <li v-for="problem in problemList" :key="problem.problemId" class="no-bullet" @click="ProblemInfo(problem.problemId,problem.courseId)">
     <!-- 根据题目id跳转到对应的题目详情页 -->
-     <!-- <router-link :to="'/myclass/coursepage/'+problem.problemId"> -->
+     <!-- <router-link :to="'/myproduct/coursepage/'+problem.problemId"> -->
       <el-row :gutter="20" style="margin-top:10px;">
         <el-card class="box-card">
           <div class="problem-info">
@@ -62,7 +62,7 @@ export default {
   methods:{
     ProblemInfo(problemId,courseId)
     {
-        this.$router.push('/myclass/coursepage/'+courseId+'/problemlist/problem/'+problemId)
+        this.$router.push('/myproduct/coursepage/'+courseId+'/problemlist/problem/'+problemId)
     }
   }
 };

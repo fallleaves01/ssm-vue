@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb class="breadcrumb">
       <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass' }">我的课程</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/myclass/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct' }">我的课程</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/myproduct/coursepage/' + courseId }">{{ courseName }}</el-breadcrumb-item>
       <el-breadcrumb-item>论坛</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- Add margin between breadcrumb and forum posts -->
@@ -20,7 +20,7 @@
         <el-card v-for="post in PostTableData" :key="post.postId" class="forum-card">
           
     <div class="post-container">
-      <router-link :to="'/myclass/coursepage/forum/post/' + courseId + '/' + forumId + '/' + post.postId + '/' + post.postName">
+      <router-link :to="'/myproduct/coursepage/forum/post/' + courseId + '/' + forumId + '/' + post.postId + '/' + post.postName">
       <div class="post-info">
         <h2 class="post-title">{{ post.postName }}</h2>
         <p class="post-author">发帖人：{{ post.userName }}</p>
@@ -86,7 +86,7 @@ export default {
   methods: {
     goToCreatePage() {
       // Redirect to the create post page
-      this.$router.push("/myclass/coursepage/forum/createpage/" + this.courseId + '/' + this.forumId );
+      this.$router.push("/myproduct/coursepage/forum/createpage/" + this.courseId + '/' + this.forumId );
     },
     isUserPost(number) {
 

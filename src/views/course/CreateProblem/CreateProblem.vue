@@ -1,9 +1,9 @@
 <template>
     <el-breadcrumb >
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass'}">我的课程</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass/coursepage/'+courseId}">{{courseName}}</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass/coursepage/problemlist/'+courseId}">题库</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct'}">我的课程</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct/coursepage/'+courseId}">{{courseName}}</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct/coursepage/problemlist/'+courseId}">题库</el-breadcrumb-item>
     <el-breadcrumb-item>创建题目</el-breadcrumb-item>
     </el-breadcrumb>
 

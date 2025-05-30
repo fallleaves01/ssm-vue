@@ -2,8 +2,8 @@
 
     <el-breadcrumb >
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass'}">我的课程</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass/coursepage/'+courseId}">{{courseName}}</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct'}">我的课程</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct/coursepage/'+courseId}">{{courseName}}</el-breadcrumb-item>
     <el-breadcrumb-item>上课</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 教师显示： -->
@@ -370,7 +370,7 @@ export default{
                     if(resp.data.status==200)
                     {
                       vm.$message.success('已下课')
-                      vm.$router.push('/myclass/coursepage/'+vm.courseId)
+                      vm.$router.push('/myproduct/coursepage/'+vm.courseId)
                     }
                     else{
                       vm.$message.error(resp.data.message)

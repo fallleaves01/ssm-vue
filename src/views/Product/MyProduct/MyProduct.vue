@@ -23,7 +23,7 @@
           </div>
           <div class="card-footer">
             <el-button type="success" @click="toCoursePage(course.courseId)">进入课程</el-button>
-          <el-button type="danger" @click="deleteCourse(course.courseId)" v-if="level==2">删除课程</el-button>
+            <el-button type="danger" @click="deleteCourse(course.courseId)">删除课程</el-button>
           </div>
           
         </el-card>
@@ -70,7 +70,7 @@ export default {
     // }
     toCoursePage(courseId)
     {
-      this.$router.push('/myclass/coursepage/'+courseId)
+      this.$router.push('/myproduct/coursepage/'+courseId)
     },
     deleteCourse(courseId)
     {

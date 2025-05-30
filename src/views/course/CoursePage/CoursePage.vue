@@ -3,7 +3,7 @@
     <!-- 面包屑导航 -->
     <el-breadcrumb >
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{path:'/myclass'}">我的课程</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{path:'/myproduct'}">我的课程</el-breadcrumb-item>
     <el-breadcrumb-item>{{courseName}}</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -78,20 +78,20 @@ export default{
     methods:{
         StudentList()
         {
-            this.$router.push("/myclass/coursepage/studentlist/"+this.courseId)
+            this.$router.push("/myproduct/coursepage/studentlist/"+this.courseId)
         },
         CreateProblem()
         {
-            this.$router.push("/myclass/coursepage/createproblem/"+this.courseId)
+            this.$router.push("/myproduct/coursepage/createproblem/"+this.courseId)
         },
 
         Forum()
         {
-            this.$router.push("/myclass/coursepage/forum/"+this.courseId+"/"+this.forumId)
+            this.$router.push("/myproduct/coursepage/forum/"+this.courseId+"/"+this.forumId)
         },
         ProblemList()
         {
-            this.$router.push("/myclass/coursepage/problemlist/"+this.courseId)
+            this.$router.push("/myproduct/coursepage/problemlist/"+this.courseId)
         },
         InCourse()
         {
@@ -105,7 +105,7 @@ export default{
                     if(resp.data.status==200)
                     {
                         vm.$message.success("开始上课")
-                        vm.$router.push("/myclass/coursepage/incourse/"+vm.courseId)
+                        vm.$router.push("/myproduct/coursepage/incourse/"+vm.courseId)
                     }
                     else{
                         vm.$message.error(resp.data.msg)
@@ -122,7 +122,7 @@ export default{
                     if(resp.data.status==200)
                     {
                         vm.$message.success("签到成功")
-                        vm.$router.push("/myclass/coursepage/incourse/"+vm.courseId)
+                        vm.$router.push("/myproduct/coursepage/incourse/"+vm.courseId)
                     }
                     else{
                         vm.$message.error(resp.data.msg)
@@ -131,20 +131,20 @@ export default{
 
             }
             
-            // this.$router.push("/myclass/coursepage/incourse/"+this.courseId)
+            // this.$router.push("/myproduct/coursepage/incourse/"+this.courseId)
 
         },
         DocumentList()
         {
-            this.$router.push("/myclass/coursepage/documentlist/"+this.courseId)
+            this.$router.push("/myproduct/coursepage/documentlist/"+this.courseId)
         },
         Announcement()
         {
-            this.$router.push("/myclass/coursepage/anncouncement/"+this.courseId)
+            this.$router.push("/myproduct/coursepage/anncouncement/"+this.courseId)
         },
         ChangeCourseInfo()
         {
-            this.$router.push("/myclass/coursepage/courseinfo/"+this.courseId)
+            this.$router.push("/myproduct/coursepage/courseinfo/"+this.courseId)
         }
     }
 }

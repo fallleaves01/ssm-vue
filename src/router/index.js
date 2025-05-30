@@ -7,11 +7,11 @@ import MyMessage from '@/views/other/MyMessage/MyMessage.vue'
 import PerInfo from '@/views/other/PerInfo/PerInfo.vue'
 import Welcome from '@/views/other/welcome/Welcome.vue'
 
-// 课程列表相关
-import MyClass from '@/views/Class/MyClass/MyClass.vue'
-import AllClass from '@/views/Class/AllClass/AllClass.vue'
-import JoinClass from '@/views/Class/JoinClass/JoinClass.vue'
-import CreateClass from '@/views/Class/CreateClass/CreateClass.vue'
+// 商品列表相关
+import MyProduct from '@/views/Product/MyProduct/MyProduct.vue'
+import AllProduct from '@/views/Product/AllProduct/AllProduct.vue'
+import BuyProduct from '@/views/Product/BuyProduct/BuyProduct.vue'
+import CreateProduct from '@/views/Product/CreateProduct/CreateProduct.vue'
 
 import Myquestions from '@/views/Myquestions/Myquestions.vue'
 
@@ -50,28 +50,28 @@ const routes = [
     redirect:'/welcome',
     children:[
       {path:'/welcome',component: Welcome},
-      {path:'/myclass',component:MyClass},
-      {path:'/allclass',component:AllClass},
+      {path:'/myproduct',component:MyProduct},
+      {path:'/allproduct',component:AllProduct},
       {path:'/mymessage',component:MyMessage},
       {path:'/perinfo',component:PerInfo},
-      {path:'/joinclass',component:JoinClass},
-      {path:'/createclass',component:CreateClass},
-      {path:'/myclass/coursepage/:id',component:CoursePage},
+      {path:'/buyproduct',component:BuyProduct},
+      {path:'/createproduct',component:CreateProduct},
+      {path:'/myproduct/coursepage/:id',component:CoursePage},
       {path:'/Myquestions',name:'MyQuestions',component:Myquestions},
-      {path:'/myclass/coursepage/studentlist/:id',component:StudentList},
-      {path:'/myclass/coursepage/createproblem/:id',component:CreateProblem},
+      {path:'/myproduct/coursepage/studentlist/:id',component:StudentList},
+      {path:'/myproduct/coursepage/createproblem/:id',component:CreateProblem},
 
-      {path:'/myclass/coursepage/forum/:id/:forumId',component:Forum},
-      {path:'/myclass/coursepage/forum/post/:id/:forumId/:postId/:postName',component:PostPage},
-      {path:'/myclass/coursepage/forum/createpage/:id/:forumId',component:CreatePage},
+      {path:'/myproduct/coursepage/forum/:id/:forumId',component:Forum},
+      {path:'/myproduct/coursepage/forum/post/:id/:forumId/:postId/:postName',component:PostPage},
+      {path:'/myproduct/coursepage/forum/createpage/:id/:forumId',component:CreatePage},
 
 
-      {path:'/myclass/coursepage/problemlist/:id',component:ProblemList},
-      {path:'/myclass/coursepage/:courseId/problemlist/problem/:problemId',name:'ProblemInfo',component:ProblemInfo},
-      {path:'/myclass/coursepage/incourse/:id',component:InCourse},
-      {path:'/myclass/coursepage/documentlist/:id',component:DocumentList},
-      {path:'/myclass/coursepage/anncouncement/:id',component:AnnouncePage},
-      {path:'/myclass/coursepage/courseinfo/:id',component:CourseInfo},
+      {path:'/myproduct/coursepage/problemlist/:id',component:ProblemList},
+      {path:'/myproduct/coursepage/:courseId/problemlist/problem/:problemId',name:'ProblemInfo',component:ProblemInfo},
+      {path:'/myproduct/coursepage/incourse/:id',component:InCourse},
+      {path:'/myproduct/coursepage/documentlist/:id',component:DocumentList},
+      {path:'/myproduct/coursepage/anncouncement/:id',component:AnnouncePage},
+      {path:'/myproduct/coursepage/courseinfo/:id',component:CourseInfo},
     ]
   }
 ]

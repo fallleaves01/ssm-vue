@@ -22,7 +22,7 @@
           
         </el-form>
           <div slot="footer" class="dialog-footer">
-             <el-button type="primary" @click="joinClass">加入课程</el-button> 
+             <el-button type="primary" @click="buyproduct">加入课程</el-button> 
         </div>
         </div>
       </el-card>
@@ -35,7 +35,7 @@
 
 <script>
 
-import {JoinClass} from '@/utils/api/JoinClassApi'
+import {buyproduct} from '@/utils/api/JoinClassApi'
 export default{
     data(){
         return{
@@ -45,13 +45,13 @@ export default{
         };
     },
     methods:{
-        joinClass()
+        buyproduct()
         {
             var that = this;
             let data = {
                 "courseId": that.courseForm.courseId
             }
-            JoinClass(data).then(function(resp){
+            buyproduct(data).then(function(resp){
                     console.log(resp)
                     if(resp.data.status === 200)
                     {
@@ -62,9 +62,9 @@ export default{
                     }
             });
         },
-        backmyclass()
+        backmyproduct()
         {
-            this.$router.push('/myclass')
+            this.$router.push('/myproduct')
         }
     }
 }

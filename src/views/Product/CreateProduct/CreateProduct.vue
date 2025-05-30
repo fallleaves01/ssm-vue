@@ -99,7 +99,7 @@
         </div>
         <!-- <template #file="{ file }"> -->
         <div slot="footer" class="dialog-footer">
-             <el-button type="primary" @click="createClass">创建课程</el-button> 
+             <el-button type="primary" @click="createproduct">创建课程</el-button> 
         </div>
       <!-- </template> -->
         </div>
@@ -112,7 +112,7 @@
 </template>
 <script>
 
-import {CreateClass,UploadPic} from '@/utils/api/CreateClassApi'
+import {createproduct,UploadPic} from '@/utils/api/CreateClassApi'
 
 import { Delete, Download, Plus, ZoomIn ,Check} from '@element-plus/icons-vue'
 export default{
@@ -131,7 +131,7 @@ export default{
         };
     },
     methods:{
-        createClass()
+        createproduct()
         {
             var that = this;
 
@@ -141,7 +141,7 @@ export default{
                 "courseInfo": that.courseForm.courseInfo,
                 "chapter":that.chapters
             }
-            CreateClass(data).then(function(resp){
+            createproduct(data).then(function(resp){
                     console.log(resp)
                     if(resp.data.status === 200)
                     {
@@ -155,9 +155,9 @@ export default{
                     }
             });
         },
-        backallclass()
+        backallproduct()
         {
-            this.$router.push('/allclass')
+            this.$router.push('/allproduct')
         },
         addChapter() {
           this.chapters.push({ chapterNo: null, chapterName: '' });
