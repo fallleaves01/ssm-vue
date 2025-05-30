@@ -13,21 +13,21 @@
               <span>个人信息</span>
             </div>
             <div>
-              <el-form label-width="80px" v-model="dataFrom" size="small" label-position="right">
-                <el-form-item label="用户名" prop="">
-                  <el-input auto-complete="off" v-model="PerInfoForm.userName" :disabled="!isEditing"></el-input>
+              <el-form ref="perInfoForm" label-width="80px" :model="PerInfoForm" size="small" label-position="right" :rules="perInfoRules">
+                <el-form-item label="用户名" prop="userName">
+                  <el-input auto-complete="off" v-model="PerInfoForm.userName" :disabled=true></el-input>
                 </el-form-item>
 
-                <el-form-item label="邮箱" prop="">
+                <el-form-item label="邮箱" prop="email">
                   <el-input auto-complete="off" v-model="PerInfoForm.email" :disabled="!isEditing"></el-input>
                 </el-form-item>
 
-                <el-form-item label="电话号码" prop="">
+                <el-form-item label="电话号码" prop="phone">
                   <el-input maxlength="18" v-model="PerInfoForm.phone" :disabled="!isEditing"></el-input>
                 </el-form-item>
 
-                <el-form-item label="支付信息" prop="">
-                  <el-input maxlength="18" v-model="PerInfoForm.payment_info" :disabled="!isEditing"></el-input>
+                <el-form-item label="支付信息" prop="payment_info">
+                  <el-input v-model="PerInfoForm.payment_info" :disabled="!isEditing"></el-input>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -56,6 +56,16 @@ export default {
         email: '',
         phone: '',
         payment_info: ''
+      },
+      perInfoRules: {
+        email: [
+          { required: true, message: '请输入邮箱', trigger: ['blur', 'change'] },
+          { type: 'email', message: '请输入合法的邮箱地址', trigger: ['blur', 'change'] }
+        ],
+        phone: [
+          { required: true, message: '请输入电话号码', trigger: ['blur', 'change'] },
+          { pattern: /^[\d+\-\s()]*$/, message: '请输入合法的电话号码', trigger: ['blur', 'change'] }
+        ]
       }
     };
   },
@@ -67,9 +77,9 @@ export default {
         console.log(resp)
         //console.log(vm.PerInfoForm.userName)
         vm.PerInfoForm.userName = resp.data.user_name;
-        vm.email = resp.data.email;
-        vm.PerInfoForm.info.phone = resp.data.phone;
-        vm.PerInfoForm.info.payment_info = resp.data.payment_info;
+        vm.PerInfoForm.email = resp.data.email;
+        vm.PerInfoForm.phone = resp.data.phone;
+        vm.PerInfoForm.payment_info = resp.data.payment_info;
 
       })
     } catch (error) {
@@ -83,31 +93,39 @@ export default {
     // }
   },
   methods: {
-
     toggleEditing() {
       let vm = this
       if (this.isEditing) {
-        let str_info = JSON.stringify(vm.PerInfoForm.info)
-        let data = {
-          "userName": vm.PerInfoForm.userName,
-          "info": str_info,
-        }
-        UpdateUserInfo(data).then(function (resp) {
-          console.log(data)
-          console.log(vm.PerInfoForm.userName)
-          console.log(str_info)
-          console.log(resp)
-          if (resp.data.status == 200) {
-            console.log("修改成功")
-            //添加提示修改成功信息
-            vm.$message.success(resp.data.msg)
+        this.$refs.perInfoForm.validate(valid => {
+          if (!valid) {
+            this.$message.error('请检查输入项是否正确');
+            return;
           }
-          else {
-            console.log("修改失败")
-            vm.$message.error(resp.data.msg)
+          let data = {
+            "user_name": vm.PerInfoForm.userName,
+            "password": null,
+            "email": vm.PerInfoForm.email,
+            "phone": vm.PerInfoForm.phone,
+            "payment_info": vm.PerInfoForm.payment_info
           }
-        })
-
+          UpdateUserInfo(data).then(function (resp) {
+            let equal_tag = resp.data["user_name"] === vm.PerInfoForm.userName &&
+              resp.data["email"] === vm.PerInfoForm.email &&
+              resp.data["phone"] === vm.PerInfoForm.phone &&
+              resp.data["payment_info"] === vm.PerInfoForm.payment_info;
+            if (equal_tag) {
+              vm.$message.success("修改成功")
+            } else {
+              vm.$message.error("修改失败")
+              vm.PerInfoForm = {
+                userName: resp.data.user_name,
+                email: resp.data.email,
+                phone: resp.data.phone,
+                payment_info: resp.data.payment_info
+              }
+            }
+          })
+        });
       }
       this.isEditing = !this.isEditing;
     }
