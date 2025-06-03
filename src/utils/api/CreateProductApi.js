@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function createproduct(obj) {
+export function CreateProduct(obj) {
     return request({
         url: '/course/createCourse',
         method: 'post',

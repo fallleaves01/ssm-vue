@@ -116,7 +116,7 @@ import {GetCoursePage} from '@/utils/api/CoursePageApi'
 import {ChangeCourseInfo} from '@/utils/api/CourseInfoApi'
 import {getLevel,setLevel,removeLevel} from '@/store/level'
 import { Delete, Download, Plus, ZoomIn ,Check} from '@element-plus/icons-vue'
-import {createproduct,UploadPic} from '@/utils/api/CreateClassApi'
+import {CreateProduct,UploadPic} from '@/utils/api/CreateProductApi'
 export default{
     data(){
         return{

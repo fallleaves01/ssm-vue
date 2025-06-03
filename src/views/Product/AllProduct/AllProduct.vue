@@ -55,7 +55,7 @@
 <script>
 import { GetAllCourseList,SearchCourse } from '@/utils/api/AllClassApi'
 import { getLevel } from '@/store/level'
-import {buyproduct} from '@/utils/api/JoinClassApi'
+import {buyProduct} from '@/utils/api/JoinClassApi'
 
 import { Search} from '@element-plus/icons-vue'
 export default {
@@ -95,7 +95,7 @@ export default {
             let data = {
                 "courseId": courseId
             }
-            buyproduct(data).then(function(resp){
+            buyProduct(data).then(function(resp){
                     console.log(resp)
                     if(resp.data.status === 200)
                     {

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function buyproduct(obj) {
+export function buyProduct(obj) {
     return request({
         url: '/course/joinCourse',
         method: 'post',
