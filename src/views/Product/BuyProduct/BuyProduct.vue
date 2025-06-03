@@ -2,7 +2,7 @@
     <!-- 面包屑导航区 -->
 <el-breadcrumb >
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>加入课程</el-breadcrumb-item>
+    <el-breadcrumb-item>加入竞拍</el-breadcrumb-item>
 </el-breadcrumb>
 
 
@@ -15,14 +15,14 @@
 
         <div>
         <el-form label-width="80px" v-model="courseForm" size="small" label-position="right">
-          <el-form-item label="课程id" prop="">
+          <el-form-item label="商品id" prop="">
             <el-input  auto-complete="off" v-model="courseForm.courseId" ></el-input>
           </el-form-item>
 
           
         </el-form>
           <div slot="footer" class="dialog-footer">
-             <el-button type="primary" @click="buyproduct">加入课程</el-button> 
+             <el-button type="primary" @click="buyproduct">加入竞拍</el-button> 
         </div>
         </div>
       </el-card>
@@ -35,7 +35,7 @@
 
 <script>
 
-import {buyproduct} from '@/utils/api/JoinClassApi'
+import {buyProduct} from '@/utils/api/JoinClassApi'
 export default{
     data(){
         return{
@@ -51,7 +51,7 @@ export default{
             let data = {
                 "courseId": that.courseForm.courseId
             }
-            buyproduct(data).then(function(resp){
+            buyProduct(data).then(function(resp){
                     console.log(resp)
                     if(resp.data.status === 200)
                     {
