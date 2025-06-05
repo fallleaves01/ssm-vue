@@ -88,7 +88,6 @@
 <script>
 import { Edit } from '@element-plus/icons'
 import { removeToken } from '@/store/token';
-import { getLevel, setLevel, removeLevel } from '@/store/level'
 // import {getNumber,setNumber,removeNumber} from '@/store/number'
 import { GetUserInfo } from '@/utils/api/InfoApi'
 export default {
@@ -101,12 +100,9 @@ export default {
   created() {
 
     let vm = this
-    let level = getLevel()
 
     let data = {}
     GetUserInfo(data).then(function (resp) {
-      level = resp.data.level;
-      setLevel(level);
       vm.userName = resp.data.user_name
     })
   },
@@ -114,7 +110,6 @@ export default {
   methods: {
     logout() {
       removeToken();
-      removeLevel();
       this.$router.push("/loginPage");
     }
 

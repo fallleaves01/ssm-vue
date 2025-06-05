@@ -5,10 +5,6 @@
     <el-breadcrumb-item>全部商品</el-breadcrumb-item>
   </el-breadcrumb>
 
-  <!-- 创建课程按钮 -->
-  <!-- <div v-if="showCreate" class="create-course-button">
-    <el-button type="primary" @click="createCourse">创建课程</el-button>
-  </div> -->
   <div class="product-home">
  <div>
     <div >
@@ -54,23 +50,20 @@
 
 <script>
 import { GetAllCourseList,SearchCourse } from '@/utils/api/AllClassApi'
-import { getLevel } from '@/store/level'
 import {buyProduct} from '@/utils/api/JoinClassApi'
+import { GetTotalProductList } from '@/utils/api/ProductApi'
+import { enterAuction } from '@/utils/api/AuctionApi'
 
 import { Search} from '@element-plus/icons-vue'
 export default {
   data() {
     return {
-      level:null,
-      // showCreate: null,
       courseList: [],
       keyWord:''
     }
   },
   created() {
     let vm = this
-    vm.level = getLevel()
-    vm.showCreate = vm.level == 1 ? false : true
     let data = {}
     try {
       GetAllCourseList(data).then(function (resp) {
