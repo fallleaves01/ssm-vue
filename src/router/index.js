@@ -49,9 +49,9 @@ const routes = [
     component: home,
     redirect:'/welcome',
     children:[
-      {path:'/welcome',component: Welcome},
-      {path:'/myproduct',component:MyProduct},
+      {path:'/welcome',component: Welcome},      {path:'/myproduct',component:MyProduct},
       {path:'/myproduct/create',component:CreateProduct},
+      {path:'/myproduct/detail/:id',component: () => import('@/views/Product/MyProductPage.vue')},
       {path:'/allproduct',component:AllProduct},
       {path:'/mymessage',component:MyMessage},
       {path:'/perinfo',component:PerInfo},
