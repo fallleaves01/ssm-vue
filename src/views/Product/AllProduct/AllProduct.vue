@@ -25,18 +25,17 @@
   <!-- 全部课程列表 -->
   <div class="product-list">
     <el-row :gutter="20">
-      <el-col :span="8" v-for="course in courseList" :key="course.id">
+      <el-col :span="8" v-for="product in productList" :key="product.id">
         <el-card class="product-card" shadow="hover">
           <div slot="header">
-            <img :src="course.url" alt="商品图片" class="product-cover" />
+            <img :src="product.image" alt="商品图片" class="product-cover" />
           </div>
           <div class="product-info">
-            <h2>{{ course.courseName }}</h2>
-            <p>卖家：{{ course.userName }}</p>
-            <p>{{ course.courseInfo }}</p>
+            <h2>{{ product.product_name }}</h2>
+            <p>{{ product.description }}</p>
           </div>
           <div class="product-footer">
-            <el-button type="success" @click="buyproduct(course.courseId) " v-if="course.in==0">加入竞拍</el-button>
+            <el-button type="success" @click="buyproduct(course.product_id) " v-if="true">加入竞拍</el-button>
           </div>
         </el-card>
       </el-col>
@@ -52,13 +51,21 @@
 import { GetAllCourseList,SearchCourse } from '@/utils/api/AllClassApi'
 import {buyProduct} from '@/utils/api/JoinClassApi'
 import { GetTotalProductList, SearchTotalProductList } from '@/utils/api/ProductApi'
-import { EnterAuction } from '@/utils/api/AuctionApi'
+import { GetBuyerAuctionList, EnterAuction } from '@/utils/api/AuctionApi'
+import { GetUserInfo } from '@/utils/api/UserApi'
 
 import { Search} from '@element-plus/icons-vue'
 export default {
   data() {
     return {
+      username: '',
       courseList: [],
+      productList: [],
+      buyer_auction: {
+        product_list: [],
+        auction_list: []
+      },
+      buyer_auction_pro_id: new Set(),
       keyWord:''
     }
   },
@@ -66,14 +73,16 @@ export default {
     let vm = this
     let data = {}
     try {
-      GetAllCourseList(data).then(function (resp) {
+      GetUserInfo()
+      GetTotalProductList().then(function (resp) {
         console.log(resp)
-        if (resp.data.courseList !== null) {
-          resp.data.courseList.forEach((course) => {
-            vm.courseList.push(course)
+        if (resp.data.product_list !== null) {
+          resp.data.product_list.forEach((data) => {
+            vm.productList.push(data)
           })
         }
       })
+      
     } catch (error) {
       console.log(error)
     }
