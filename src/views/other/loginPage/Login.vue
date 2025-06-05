@@ -234,13 +234,6 @@ export default {
         var that = this;
         if (valid) {
           console.log(this.regForm);
-          let data = {
-            "user_name":this.regForm.userName,
-            "password":this.regForm.pwd,
-            "phone":this.regForm.phone,
-            "email":this.regForm.email,
-            "payment_info":this.regForm.payment_info
-          }
           Register(
             this.regForm.userName,
             this.regForm.pwd,
