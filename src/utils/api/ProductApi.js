@@ -10,7 +10,7 @@ export function CreateProduct(
 ) {
     let obj = new FormData();
     obj.append("product_name", product_name);
-    obj.append("description", description);  // 修正拼写错误
+    obj.append("description", description);
     obj.append("image", image);
     obj.append("start_price", start_price);
     obj.append("due_time", due_time);
@@ -19,6 +19,9 @@ export function CreateProduct(
         url: '/product/createProduct',
         method: 'post',
         data: obj,  // 使用data而不是params传递FormData
+        headers: {
+            'Content-Type': 'multipart/form-data' // 明确指定为multipart/form-data
+        }
     })
 }
 
