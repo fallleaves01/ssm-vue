@@ -37,6 +37,7 @@
             </div>
             <div class="product-footer">
               <el-button type="primary" @click="viewProduct(product.product_id)">查看商品</el-button>
+              <el-button type="primary" @click="deleteProduct(product.product_id)">删除商品</el-button>
             </div>
           </el-card>
         </el-col>
@@ -78,6 +79,20 @@ export default {
     },
     viewProduct(productId) {
       this.$router.push('/product/detail/' + productId);
+    },
+    deleteProduct(productId) {
+      let vm = this;
+      DeleteProduct(productId).then(function(resp) {
+        if (resp.data.status == 0) {
+          vm.$message.success("商品删除成功");
+          vm.loadProducts(); // 重新加载商品列表
+        } else {
+          vm.$message.error("商品不存在或已被删除");
+        }
+      }).catch(function(error) {
+        console.error("删除商品失败:", error);
+        vm.$message.error("删除商品失败，请稍后再试");
+      });
     },
     search() {
       let vm = this;
