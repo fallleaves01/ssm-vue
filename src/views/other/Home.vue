@@ -42,13 +42,6 @@
               <span>我的竞拍</span>
             </el-menu-item>
 
-            <el-menu-item index="/createproduct">
-              <el-icon>
-                <Files />
-              </el-icon>
-              <span>创建商品</span>
-            </el-menu-item>
-
             <el-menu-item index="/myproduct">
               <el-icon>
                 <UserFilled />

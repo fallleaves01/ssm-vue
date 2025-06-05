@@ -51,6 +51,7 @@ const routes = [
     children:[
       {path:'/welcome',component: Welcome},
       {path:'/myproduct',component:MyProduct},
+      {path:'/myproduct/create',component:CreateProduct},
       {path:'/allproduct',component:AllProduct},
       {path:'/mymessage',component:MyMessage},
       {path:'/perinfo',component:PerInfo},

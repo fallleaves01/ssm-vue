@@ -3,9 +3,7 @@
   <el-breadcrumb separator-class="el-icon-arrow-right">
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item>我的商品</el-breadcrumb-item>
-  </el-breadcrumb>
-
-  <div class="product-home">
+  </el-breadcrumb>  <div class="product-home">
     <div>
       <div>
         <el-row>
@@ -21,10 +19,20 @@
           </el-col>
         </el-row>
       </div>
-    </div>
-    <!-- 我的商品列表 -->
+    </div>    <!-- 我的商品列表 -->
     <div class="product-list">
       <el-row :gutter="20">
+        <!-- 添加商品卡片 -->
+        <el-col :span="8">
+          <el-card class="product-card add-product-card" shadow="hover" @click="createProduct">
+            <div class="add-product-content">
+              <el-icon class="add-icon"><Plus /></el-icon>
+              <div class="add-text">添加新商品</div>
+            </div>
+          </el-card>
+        </el-col>
+        
+        <!-- 商品列表 -->
         <el-col :span="8" v-for="product in productList" :key="product.product_id">
           <el-card class="product-card" shadow="hover">
             <div slot="header">
@@ -37,7 +45,7 @@
             </div>
             <div class="product-footer">
               <el-button type="primary" @click="viewProduct(product.product_id)">查看商品</el-button>
-              <el-button type="primary" @click="deleteProduct(product.product_id)">删除商品</el-button>
+              <el-button type="danger" @click="deleteProduct(product.product_id)">删除商品</el-button>
             </div>
           </el-card>
         </el-col>
@@ -48,7 +56,7 @@
 
 <script>
 import { GetReleasedProductList, SearchReleasedProductList, DeleteProduct } from '@/utils/api/ProductApi';
-import { Search } from '@element-plus/icons-vue';
+import { Search, Plus } from '@element-plus/icons-vue';
 
 export default {
   data() {
@@ -59,8 +67,10 @@ export default {
   },
   created() {
     this.loadProducts();
-  },
-  methods: {
+  },  methods: {
+    createProduct() {
+      this.$router.push('/myproduct/create');
+    },
     loadProducts() {
       let vm = this;
       try {
@@ -93,8 +103,7 @@ export default {
         console.error("删除商品失败:", error);
         vm.$message.error("删除商品失败，请稍后再试");
       });
-    },
-    search() {
+    },    search() {
       let vm = this;
       if (!vm.keyWord.trim()) {
         vm.loadProducts();
@@ -102,10 +111,12 @@ export default {
       }
       
       SearchReleasedProductList(vm.keyWord).then(function(resp) {
+        console.log("搜索结果:", resp);
         if (resp.data.product_list !== null) {
           vm.productList = resp.data.product_list;
         } else {
           vm.productList = [];
+          vm.$message.info("未找到匹配的商品");
         }
       }).catch(function(error) {
         console.error("搜索商品失败:", error);
@@ -175,5 +186,49 @@ export default {
   color: #e57373;
   font-weight: bold;
   margin-top: 10px;
+}
+
+/* 添加商品卡片样式 */
+.add-product-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 2px dashed #dcdfe6;
+  transition: all 0.3s;
+  background-color: #f8f9fa;
+}
+
+.add-product-card:hover {
+  border-color: #409EFF;
+  background-color: #ecf5ff;
+}
+
+.add-product-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 40px 0;
+}
+
+.add-icon {
+  font-size: 48px;
+  color: #909399;
+  margin-bottom: 16px;
+}
+
+.add-product-card:hover .add-icon {
+  color: #409EFF;
+}
+
+.add-text {
+  font-size: 16px;
+  color: #606266;
+}
+
+.add-product-card:hover .add-text {
+  color: #409EFF;
 }
 </style>

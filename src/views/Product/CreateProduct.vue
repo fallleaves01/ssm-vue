@@ -2,6 +2,7 @@
   <!-- 面包屑导航区 -->
   <el-breadcrumb>
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/myproduct' }">我的商品</el-breadcrumb-item>
     <el-breadcrumb-item>创建商品</el-breadcrumb-item>
   </el-breadcrumb>
   <!-- 返回按钮 -->
@@ -82,7 +83,7 @@
                 </el-form-item>
               </el-form>              <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="createproduct">创建商品</el-button>
-                <el-button @click="backallproduct">返回</el-button>
+                <el-button @click="backmyproduct">返回</el-button>
               </div>
             </div>
           </el-card>
@@ -200,8 +201,8 @@ export default {
         that.$message.error("网络错误，请重试");
       });
     },
-    backallproduct() {
-      this.$router.push('/allproduct')
+    backmyproduct() {
+      this.$router.push('/myproduct')
     },
     addChapter() {
       this.chapters.push({ chapterNo: null, chapterName: '' });
