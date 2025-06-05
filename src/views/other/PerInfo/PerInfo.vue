@@ -13,7 +13,8 @@
               <span>个人信息</span>
             </div>
             <div>
-              <el-form ref="perInfoForm" label-width="80px" :model="PerInfoForm" size="small" label-position="right" :rules="perInfoRules">
+              <el-form ref="perInfoForm" label-width="80px" :model="PerInfoForm" size="small" label-position="right"
+                :rules="perInfoRules">
                 <el-form-item label="用户名" prop="userName">
                   <el-input auto-complete="off" v-model="PerInfoForm.userName" :disabled=true></el-input>
                 </el-form-item>
@@ -45,7 +46,7 @@
 <script>
 
 
-import { GetUserInfo, UpdateUserInfo } from '@/utils/api/InfoApi'
+import { GetUserInfo, UpdateUserInfo } from '@/utils/api/UserApi'
 
 export default {
   data() {
@@ -73,7 +74,7 @@ export default {
     let vm = this
     let data = {}
     try {
-      GetUserInfo(data).then(function (resp) {
+      GetUserInfo().then(function (resp) {
         console.log(resp)
         //console.log(vm.PerInfoForm.userName)
         vm.PerInfoForm.userName = resp.data.user_name;
@@ -101,14 +102,13 @@ export default {
             this.$message.error('请检查输入项是否正确');
             return;
           }
-          let data = {
-            "user_name": vm.PerInfoForm.userName,
-            "password": null,
-            "email": vm.PerInfoForm.email,
-            "phone": vm.PerInfoForm.phone,
-            "payment_info": vm.PerInfoForm.payment_info
-          }
-          UpdateUserInfo(data).then(function (resp) {
+          UpdateUserInfo(
+            vm.PerInfoForm.userName,
+            null,
+            vm.PerInfoForm.phone,
+            vm.PerInfoForm.email,
+            vm.PerInfoForm.payment_info
+          ).then(function (resp) {
             let equal_tag = resp.data["user_name"] === vm.PerInfoForm.userName &&
               resp.data["email"] === vm.PerInfoForm.email &&
               resp.data["phone"] === vm.PerInfoForm.phone &&

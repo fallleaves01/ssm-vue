@@ -16,7 +16,7 @@ export function CreateProduct(
     obj.append("due_time", due_time);
     obj.append("plan_start_time", plan_start_time);
     return request({
-        url: '/course/createProduct',
+        url: '/product/createProduct',
         method: 'post',
         params: obj,
     })
@@ -24,7 +24,7 @@ export function CreateProduct(
 
 export function GetReleasedProductList() {
     return request({
-        url: '/course/getReleasedProductList',
+        url: '/product/getReleasedProductList',
         method: 'get',
         params: {},
     })
@@ -45,7 +45,7 @@ export function UpdateProductInfo(
         "due_time": due_time
     }
     return request({
-        url: '/course/updateProductInfo',
+        url: '/product/updateProductInfo',
         method: 'post',
         params: obj,
     })
@@ -53,7 +53,7 @@ export function UpdateProductInfo(
 
 export function GetBuyedProductList() {
     return request({
-        url: '/course/getBuyedProductList',
+        url: '/product/getBuyedProductList',
         method: 'get',
         params: {},
     })
@@ -64,7 +64,7 @@ export function SearchBuyedProductList(key_word) {
         "key_word": key_word
     }
     return request({
-        url: '/course/searchBuyedProductList',
+        url: '/product/searchBuyedProductList',
         method: 'get',
         params: obj,
     })
@@ -72,7 +72,7 @@ export function SearchBuyedProductList(key_word) {
 
 export function GetTotalProductList() {
     return request({
-        url: '/course/getTotalProductList',
+        url: '/product/getTotalProductList',
         method: 'get',
         params: {},
     })
@@ -84,7 +84,7 @@ export function SearchReleasedProductList(key_word) {
         "key_word": key_word
     }
     return request({
-        url: '/course/searchReleasedProductList',
+        url: '/product/searchReleasedProductList',
         method: 'get',
         params: obj,
     })
@@ -95,7 +95,7 @@ export function SearchTotalProductList(key_word) {
         "key_word": key_word
     }
     return request({
-        url: '/course/searchTotalProductList',
+        url: '/product/searchTotalProductList',
         method: 'get',
         params: obj,
     })
@@ -106,7 +106,7 @@ export function DeleteProduct(product_id) {
         "product_id": product_id
     }
     return request({
-        url: '/course/deleteProduct',
+        url: '/product/deleteProduct',
         method: 'post',
         params: obj,
     })

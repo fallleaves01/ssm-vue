@@ -89,7 +89,7 @@
 import { Edit } from '@element-plus/icons'
 import { removeToken } from '@/store/token';
 // import {getNumber,setNumber,removeNumber} from '@/store/number'
-import { GetUserInfo } from '@/utils/api/InfoApi'
+import { GetUserInfo } from '@/utils/api/UserApi'
 export default {
   data() {
     return {
@@ -100,9 +100,7 @@ export default {
   created() {
 
     let vm = this
-
-    let data = {}
-    GetUserInfo(data).then(function (resp) {
+    GetUserInfo().then(function (resp) {
       vm.userName = resp.data.user_name
     })
   },
