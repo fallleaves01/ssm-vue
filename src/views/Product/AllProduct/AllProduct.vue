@@ -126,7 +126,7 @@ export default {
             that.$message.error("商品不存在");
             break;
           default:
-            that.$message.error("未知错误，请稍后再试");
+            that.$message.error(resp.data.msg || "未知错误");
             break;
         }
       });
