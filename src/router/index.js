@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import login from "@/views/other/loginPage/Login.vue";
-import home from "@/views/other/homePage/Home.vue"
+import login from "@/views/other/Login.vue";
+import home from "@/views/other/Home.vue"
 import {getToken} from '@/store/token'
 
-import MyMessage from '@/views/other/MyMessage/MyMessage.vue'
-import PerInfo from '@/views/other/PerInfo/PerInfo.vue'
-import Welcome from '@/views/other/welcome/Welcome.vue'
+import MyMessage from '@/views/other/MyMessage.vue'
+import PerInfo from '@/views/other/PerInfo.vue'
+import Welcome from '@/views/other/Welcome.vue'
 
 // 商品列表相关
-import MyProduct from '@/views/Product/MyProduct/MyProduct.vue'
-import AllProduct from '@/views/Product/AllProduct/AllProduct.vue'
-import BuyProduct from '@/views/Product/BuyProduct/BuyProduct.vue'
-import CreateProduct from '@/views/Product/CreateProduct/CreateProduct.vue'
+import MyProduct from '@/views/Product/MyProduct.vue'
+import AllProduct from '@/views/Product/AllProduct.vue'
+import BuyProduct from '@/views/Product/BuyProduct.vue'
+import CreateProduct from '@/views/Product/CreateProduct.vue'
 
 import Myquestions from '@/views/Myquestions/Myquestions.vue'
 

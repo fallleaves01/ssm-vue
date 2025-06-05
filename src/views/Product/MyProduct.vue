@@ -40,18 +40,15 @@
 
 <script>
 import { GetCourseList ,DeleteCourse} from '@/utils/api/MyClassApi';
-import {getLevel,setLevel,removeLevel} from '@/store/level'
 export default {
   data() {
     return {
       courseList: [],
-      level:null,
     };
   },
   created() {
     let vm = this;
     let data = {};
-    vm.level= getLevel()
     try {
       GetCourseList(data).then(function (resp) {
         console.log(resp);
