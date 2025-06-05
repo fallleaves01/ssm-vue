@@ -107,7 +107,7 @@ export function DeleteProduct(product_id) {
     }
     return request({
         url: '/course/deleteProduct',
-        method: 'get',
+        method: 'post',
         params: obj,
     })
 }

@@ -105,7 +105,8 @@ import {ref} from 'vue';
 
 
 import qs from "qs";
-import {login,register} from '@/utils/api/LoginAPI'
+// import {login,register} from '@/utils/api/LoginAPI'
+import {Login, Register} from '@/utils/api/UserApi'
 import {setToken} from '@/store/token'
 import {reactive} from "vue";
 import {translate} from "element-plus";
@@ -201,11 +202,10 @@ export default {
               return false;
             }
           })*/
-          let data = {
-            "user_name":this.loginForm.userName,
-            "password":this.loginForm.pwd
-          }
-          login(data).then(function (resp) {
+          Login(
+            this.loginForm.userName,
+            this.loginForm.pwd
+          ).then(function (resp) {
             console.log(resp)
 
 
@@ -224,7 +224,6 @@ export default {
       });
     },
     register(){
-
         if(this.regForm.pwd!==this.regForm.rpwd)
         {
 
@@ -242,7 +241,13 @@ export default {
             "email":this.regForm.email,
             "payment_info":this.regForm.payment_info
           }
-          register(data).then(function (resp) {
+          Register(
+            this.regForm.userName,
+            this.regForm.pwd,
+            this.regForm.phone,
+            this.regForm.email,
+            this.regForm.payment_info
+          ).then(function (resp) {
             console.log(resp)
             if (resp.data.status === 200) {
               console.log('注册成功');
