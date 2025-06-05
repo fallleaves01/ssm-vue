@@ -35,7 +35,7 @@
               <span>加入竞拍</span>
             </el-menu-item>
 
-            <el-menu-item index="/Myquestions">
+            <el-menu-item index="/myauction">
               <el-icon :size="20" color="hotpink">
                 <Edit />
               </el-icon>
