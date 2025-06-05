@@ -25,7 +25,7 @@
               <el-icon>
                 <UserFilled />
               </el-icon>
-              <span>我的商品</span>
+              <span>我的竞拍</span>
             </el-menu-item>
             <el-menu-item index="/buyproduct">
               <el-icon>

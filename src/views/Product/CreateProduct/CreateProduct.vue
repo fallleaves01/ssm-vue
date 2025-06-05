@@ -2,7 +2,7 @@
   <!-- 面包屑导航区 -->
   <el-breadcrumb>
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>创建课程</el-breadcrumb-item>
+    <el-breadcrumb-item>创建商品</el-breadcrumb-item>
   </el-breadcrumb>
   <!-- 返回按钮 -->
 

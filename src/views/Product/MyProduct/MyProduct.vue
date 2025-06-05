@@ -2,7 +2,7 @@
   <!-- 面包屑导航区 -->
   <el-breadcrumb separator-class="el-icon-arrow-right">
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>我的课程</el-breadcrumb-item>
+    <el-breadcrumb-item>我的竞拍</el-breadcrumb-item>
   </el-breadcrumb>
 
   <div class="course-list">
