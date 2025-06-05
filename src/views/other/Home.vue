@@ -21,30 +21,41 @@
 
           <el-menu active-text-color="#409eef" background-color="#bfd8d2" text-color="#fff" :router="true">
 
-            <el-menu-item index="/myproduct">
-              <el-icon>
-                <UserFilled />
-              </el-icon>
-              <span>我的竞拍</span>
-            </el-menu-item>
-            <el-menu-item index="/buyproduct">
-              <el-icon>
-                <UserFilled />
-              </el-icon>
-              <span>加入竞拍</span>
-            </el-menu-item>
             <el-menu-item index="/allproduct">
               <el-icon>
                 <Files />
               </el-icon>
               <span>全部商品</span>
             </el-menu-item>
+
+            <el-menu-item index="/buyproduct">
+              <el-icon>
+                <UserFilled />
+              </el-icon>
+              <span>加入竞拍</span>
+            </el-menu-item>
+
+            <el-menu-item index="/Myquestions">
+              <el-icon :size="20" color="hotpink">
+                <Edit />
+              </el-icon>
+              <span>我的竞拍</span>
+            </el-menu-item>
+
             <el-menu-item index="/createproduct">
               <el-icon>
                 <Files />
               </el-icon>
               <span>创建商品</span>
             </el-menu-item>
+
+            <el-menu-item index="/myproduct">
+              <el-icon>
+                <UserFilled />
+              </el-icon>
+              <span>我的商品</span>
+            </el-menu-item>
+
             <el-menu-item index="/mymessage">
               <el-icon>
                 <Position />
@@ -52,24 +63,12 @@
               <span>我的消息</span>
             </el-menu-item>
 
-
-
             <el-menu-item index="/perinfo">
               <el-icon>
                 <document />
               </el-icon>
               <span>个人信息</span>
             </el-menu-item>
-
-            <el-menu-item index="/Myquestions">
-              <el-icon :size="20" color="hotpink">
-                <Edit />
-              </el-icon>
-              <span>个人商品列表</span>
-            </el-menu-item>
-
-
-
 
           </el-menu>
 
