@@ -49,8 +49,6 @@
 </template>
 
 <script>
-import { GetAllCourseList, SearchCourse } from '@/utils/api/AllClassApi'
-// import {buyProduct} from '@/utils/api/JoinClassApi'
 import { GetTotalProductList, SearchTotalProductList } from '@/utils/api/ProductApi'
 import { GetBuyerAuctionList, EnterAuction } from '@/utils/api/AuctionApi'
 import { GetUserInfo } from '@/utils/api/UserApi'
@@ -126,7 +124,7 @@ export default {
             that.$message.error("商品不存在");
             break;
           default:
-            that.$message.error(resp.data.msg || "未知错误");
+            that.$message.error(resp.data.msg || "未知错误，请稍后再试");
             break;
         }
       });
