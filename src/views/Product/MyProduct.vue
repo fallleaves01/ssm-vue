@@ -2,105 +2,140 @@
   <!-- 面包屑导航区 -->
   <el-breadcrumb separator-class="el-icon-arrow-right">
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>我的竞拍</el-breadcrumb-item>
+    <el-breadcrumb-item>我的商品</el-breadcrumb-item>
   </el-breadcrumb>
 
-  <div class="course-list">
-    <el-row :gutter="20">
-      
-
-<el-col :span="8" v-for="course in courseList" :key="course.courseId" >
-  <!-- 路由传参 -->
-
-        <el-card class="course-card" shadow="hover">
-          <div slot="header">
-            <img :src="course.url" alt="课程封面" class="course-cover" />
-          </div>
-          <div class="course-info">
-            <h2>{{ course.courseName }}</h2>
-            <p>教师：{{ course.userName }}</p>
-            <p>{{ course.courseInfo }}</p>
-          </div>
-          <div class="card-footer">
-            <el-button type="success" @click="toCoursePage(course.courseId)">进入课程</el-button>
-            <el-button type="danger" @click="deleteCourse(course.courseId)">删除课程</el-button>
-          </div>
-          
-        </el-card>
-
-
-      </el-col>
-
-     
-      
-
-    </el-row>
+  <div class="product-home">
+    <div>
+      <div>
+        <el-row>
+          <el-col :span="16">
+            <el-input v-model="keyWord" placeholder="请输入关键词"></el-input>
+          </el-col>
+          <el-col :span="8">
+            <el-button @click="search" circle>
+              <el-icon style="vertical-align: middle;">
+                <Search />
+              </el-icon>
+            </el-button>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    <!-- 我的商品列表 -->
+    <div class="product-list">
+      <el-row :gutter="20">
+        <el-col :span="8" v-for="product in productList" :key="product.product_id">
+          <el-card class="product-card" shadow="hover">
+            <div slot="header">
+              <img :src="product.image" alt="商品图片" class="product-cover" />
+            </div>
+            <div class="product-info">
+              <h2>{{ product.product_name }}</h2>
+              <p>{{ product.description }}</p>
+              <p>起拍价: ¥{{ product.start_price }}</p>
+            </div>
+            <div class="product-footer">
+              <el-button type="primary" @click="viewProduct(product.product_id)">查看商品</el-button>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
-import { GetCourseList ,DeleteCourse} from '@/utils/api/MyClassApi';
+import { GetReleasedProductList, SearchReleasedProductList, DeleteProduct } from '@/utils/api/ProductApi';
+import { Search } from '@element-plus/icons-vue';
+
 export default {
   data() {
     return {
-      courseList: [],
+      productList: [],
+      keyWord: ''
     };
   },
   created() {
-    let vm = this;
-    let data = {};
-    try {
-      GetCourseList(data).then(function (resp) {
-        console.log(resp);
-        if (resp.data.courseList !== null) {
-          vm.courseList = resp.data.courseList;
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    this.loadProducts();
   },
-  methods:{
-    // To_course_page()
-    // {
-    //   this.$router.push("'/blog/'+")
-    // }
-    toCoursePage(courseId)
-    {
-      this.$router.push('/myproduct/coursepage/'+courseId)
-    },
-    deleteCourse(courseId)
-    {
-      let vm = this
-      let data ={
-        "courseId":courseId
+  methods: {
+    loadProducts() {
+      let vm = this;
+      try {
+        GetReleasedProductList().then(function(resp) {
+          console.log(resp);
+          if (resp.data.product_list !== null) {
+            vm.productList = resp.data.product_list;
+          }
+        }).catch(function(error) {
+          console.error("获取发布的商品列表失败:", error);
+          vm.$message.error("获取商品列表失败，请稍后再试");
+        });
+      } catch (error) {
+        console.log(error);
       }
-      DeleteCourse(data).then(function(resp){
-        if(resp.data.status==200)
-            {
-                vm.$message.success('删除成功')
-            }
-            else
-            {
-                vm.$message.error(resp.data.msg);
-            }
-      })
+    },
+    viewProduct(productId) {
+      this.$router.push('/product/detail/' + productId);
+    },
+    search() {
+      let vm = this;
+      if (!vm.keyWord.trim()) {
+        vm.loadProducts();
+        return;
+      }
+      
+      SearchReleasedProductList(vm.keyWord).then(function(resp) {
+        if (resp.data.product_list !== null) {
+          vm.productList = resp.data.product_list;
+        } else {
+          vm.productList = [];
+        }
+      }).catch(function(error) {
+        console.error("搜索商品失败:", error);
+        vm.$message.error("搜索失败，请稍后再试");
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-.course-list {
+.product-list {
   padding: 20px;
 }
 
-.course-card {
+.product-card {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-.card-footer {
+
+.product-cover {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 20px;
+  text-align: center;
+}
+
+.product-info p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  display: box;
+  -webkit-line-clamp: 2; /* 最多显示2行 */
+  line-clamp: 2; /* 标准属性 */
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  white-space: normal;
+}
+
+.product-footer {
   margin-top: auto;
   margin-bottom: 10px; /* 调整底部距离 */
   display: flex;
@@ -108,21 +143,22 @@ export default {
   align-items: center;
 }
 
-.course-cover {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-}
-
-.course-info {
-  padding: 20px;
-  text-align: center;
-}
-
 .el-breadcrumb {
   margin: 20px 0;
 }
 
 /* 根据需要添加其他样式 */
+.product-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
+/* 价格样式 */
+.product-info p:nth-child(3) {
+  color: #e57373;
+  font-weight: bold;
+  margin-top: 10px;
+}
 </style>
