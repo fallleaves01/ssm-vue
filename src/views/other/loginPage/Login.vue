@@ -202,7 +202,7 @@ export default {
             }
           })*/
           let data = {
-            "user_name":this.loginForm.user_name,
+            "user_name":this.loginForm.userName,
             "password":this.loginForm.pwd
           }
           login(data).then(function (resp) {
