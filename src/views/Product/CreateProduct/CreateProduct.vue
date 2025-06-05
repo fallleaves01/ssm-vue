@@ -24,32 +24,21 @@
                   <el-input auto-complete="off" v-model="productForm.productInfo"></el-input>
                 </el-form-item>
                 <el-form-item label="开始拍卖时间" prop="startAuctionTime">
-                  <el-date-picker
-                    v-model="productForm.startAuctionTime"
-                    type="datetime"
-                    placeholder="选择开始拍卖时间"
-                    style="width: 100%;"
-                  ></el-date-picker>
+                  <el-date-picker v-model="productForm.startAuctionTime" type="datetime" placeholder="选择开始拍卖时间"
+                    style="width: 100%;"></el-date-picker>
                 </el-form-item>
                 <!-- 添加起拍价 -->
                 <el-form-item label="起拍价(元)" prop="startPrice">
-                  <el-input-number
-                    v-model="productForm.startPrice"
-                    :min="0"
-                    style="width: 100%;"
-                  />
+                  <el-input-number v-model="productForm.startPrice" :min="0" style="width: 100%;" />
                 </el-form-item>
                 <!-- 添加拍卖持续时间 -->
                 <el-form-item label="拍卖持续时间(小时)" prop="durationHours">
-                  <el-input-number
-                    v-model="productForm.durationHours"
-                    :min="1"
-                    style="width: 100%;"
-                  />
+                  <el-input-number v-model="productForm.durationHours" :min="1" style="width: 100%;" />
                 </el-form-item>
                 <el-form-item label="商品图片" prop="">
 
-                  <el-upload action="#" ref="upload" list-type="picture-card" :auto-upload="false" :file-list="fileList" :limit="1">
+                  <el-upload action="#" ref="upload" list-type="picture-card" :auto-upload="false" :file-list="fileList"
+                    :limit="1">
                     <template #trigger v-if="fileList.length === 0">
                       <el-icon style="font-size:32px;cursor:pointer;">
                         <Plus />
@@ -97,8 +86,8 @@
 </template>
 <script>
 
-import { CreateProduct } from '@/utils/api/CreateProductApi'
-
+import { CreateCourse } from '@/utils/api/CreateProductApi'
+import { CreateProduct } from '@/utils/api/ProductApi';
 import { Delete, Download, Plus, ZoomIn, Check } from '@element-plus/icons-vue'
 export default {
   data() {
@@ -123,16 +112,15 @@ export default {
   methods: {
     createproduct() {
       var that = this;
-      let formData = new FormData();
-      formData.append("product_name", that.productForm.productName);
-      formData.append("descreption", that.productForm.productInfo);
-      formData.append("start_price", that.productForm.startPrice);
-      formData.append("due_time", that.productForm.durationHours);
-      formData.append("plan_start_time", that.productForm.startAuctionTime);
-      if (that.fileList[0] && that.fileList[0].raw) {
-        formData.append("image", that.fileList[0].raw);
-      }
-      CreateProduct(formData).then(function (resp) {
+      let image = (that.fileList[0] && that.fileList[0].raw) ? that.fileList[0].raw : null;
+      CreateProduct(
+        that.productForm.productName,
+        that.productForm.productInfo,
+        image,
+        that.productForm.startPrice,
+        that.productForm.durationHours,
+        that.productForm.startAuctionTime
+      ).then(function (resp) {
         console.log(resp)
         if (resp.data.status === 200) {
           that.courseId = resp.data.courseId

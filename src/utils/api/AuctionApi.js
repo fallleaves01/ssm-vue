@@ -1,6 +1,11 @@
 import request from '@/utils/request'
 
-export function bid(obj) {
+export function Bid(bid_price, user_name, product_id) {
+    let obj = {
+        "bid_price" : bid_price,
+        "user_name": user_name,
+        "product_id": product_id
+    };
     return request({
         url: '/auction/bid',
         method: 'post',
@@ -8,7 +13,10 @@ export function bid(obj) {
     })
 }
 
-export function getBuyerAuctionList(obj) {
+export function GetBuyerAuctionList(user_name) {
+    let obj = {
+        "user_name": user_name,
+    };
     return request({
         url: '/auction/getBuyerAuctionList',
         method: 'get',
@@ -16,7 +24,10 @@ export function getBuyerAuctionList(obj) {
     })
 }
 
-export function enterAuction(obj) {
+export function EnterAuction(product_id) {
+    let obj = {
+        "product_id": product_id
+    }
     return request({
         url: '/auction/enterAuction',
         method: 'post',
@@ -27,7 +38,10 @@ export function enterAuction(obj) {
     })
 }
 
-export function startAuction(obj) {
+export function StartAuction(product_id) {
+    let obj = {
+        "product_id": product_id
+    }
     return request({
         url: '/auction/startAuction',
         method: 'post',
@@ -35,7 +49,10 @@ export function startAuction(obj) {
     })
 }
 
-export function endAuction(obj) {
+export function EndAuction(product_id) {
+    let obj = {
+        "product_id": product_id
+    }
     return request({
         url: '/auction/endAuction',
         method: 'post',

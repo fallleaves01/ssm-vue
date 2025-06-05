@@ -51,8 +51,8 @@
 <script>
 import { GetAllCourseList,SearchCourse } from '@/utils/api/AllClassApi'
 import {buyProduct} from '@/utils/api/JoinClassApi'
-import { GetTotalProductList } from '@/utils/api/ProductApi'
-import { enterAuction } from '@/utils/api/AuctionApi'
+import { GetTotalProductList, SearchTotalProductList } from '@/utils/api/ProductApi'
+import { EnterAuction } from '@/utils/api/AuctionApi'
 
 import { Search} from '@element-plus/icons-vue'
 export default {
