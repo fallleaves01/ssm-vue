@@ -17,7 +17,7 @@ export function Register(
     return request({
         url: '/user/register',
         method: 'post',
-        params: obj,
+        data: obj,
     })
 }
 
@@ -32,7 +32,7 @@ export function Login(
     return request({
         url: '/user/login',
         method: 'post',
-        params: obj,
+        data: obj,
     })
 }
 
@@ -61,6 +61,6 @@ export function UpdateUserInfo(
     return request({
         url: '/user/updateUserInfo',
         method: 'post',
-        params: obj,
+        data: obj,
     })
 }

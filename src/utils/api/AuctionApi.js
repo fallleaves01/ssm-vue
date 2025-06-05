@@ -9,7 +9,7 @@ export function Bid(bid_price, user_name, product_id) {
     return request({
         url: '/auction/bid',
         method: 'post',
-        params: obj,
+        data: obj,
     })
 }
 

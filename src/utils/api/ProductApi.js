@@ -50,7 +50,7 @@ export function UpdateProductInfo(
     return request({
         url: '/product/updateProductInfo',
         method: 'post',
-        params: obj,
+        data: obj,
     })
 }
 
@@ -111,6 +111,6 @@ export function DeleteProduct(product_id) {
     return request({
         url: '/product/deleteProduct',
         method: 'post',
-        params: obj,
+        data: obj,
     })
 }
