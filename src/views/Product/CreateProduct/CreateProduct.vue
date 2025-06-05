@@ -34,11 +34,20 @@
                 <!-- 添加拍卖持续时间 -->
                 <el-form-item label="拍卖持续时间(小时)" prop="durationHours">
                   <el-input-number v-model="productForm.durationHours" :min="1" style="width: 100%;" />
-                </el-form-item>
-                <el-form-item label="商品图片" prop="">
+                </el-form-item>                <el-form-item label="商品图片" prop="image">
 
-                  <el-upload action="#" ref="upload" list-type="picture-card" :auto-upload="false" :file-list="fileList"
-                    :limit="1">
+                  <el-upload 
+                    action="#" 
+                    ref="upload" 
+                    list-type="picture-card" 
+                    :auto-upload="false" 
+                    :file-list="fileList"
+                    :limit="1"
+                    :on-exceed="handleExceed"
+                    :on-change="handleFileChange"
+                    :before-upload="beforeUpload"
+                    :on-remove="handleRemove"
+                  >
                     <template #trigger v-if="fileList.length === 0">
                       <el-icon style="font-size:32px;cursor:pointer;">
                         <Plus />
@@ -57,7 +66,11 @@
                             </el-icon>
                           </span>
                         </span>
-
+                      </div>
+                    </template>
+                    <template #tip>
+                      <div class="el-upload__tip">
+                        只能上传 JPG/PNG 文件，且不超过 5MB
                       </div>
                     </template>
                   </el-upload>
@@ -66,16 +79,11 @@
                     <img w-full :src="dialogImageUrl" alt="Preview Image" />
                   </el-dialog>
 
-
-
                 </el-form-item>
-              </el-form>
-
-              <!-- <template #file="{ file }"> -->
-              <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="createproduct">创建课程</el-button>
+              </el-form>              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="createproduct">创建商品</el-button>
+                <el-button @click="backallproduct">返回</el-button>
               </div>
-              <!-- </template> -->
             </div>
           </el-card>
         </div>
@@ -106,14 +114,43 @@ export default {
         durationHours: null,
       },
       chapters: [],
-      courseId: null,
+      product_id: null,
     };
-  },
-  methods: {
+  },  methods: {
     createproduct() {
       var that = this;
+      // 表单验证
+      if (!that.productForm.productName) {
+        that.$message.error("请输入商品名称");
+        return;
+      }
+      if (!that.productForm.startAuctionTime) {
+        that.$message.error("请选择开始拍卖时间");
+        return;
+      }
+      if (!that.productForm.startPrice) {
+        that.$message.error("请设置起拍价");
+        return;
+      }
+      if (!that.productForm.durationHours) {
+        that.$message.error("请设置拍卖持续时间");
+        return;
+      }
+      if (that.fileList.length === 0) {
+        that.$message.error("请上传商品图片");
+        return;
+      }
+
       let image = (that.fileList[0] && that.fileList[0].raw) ? that.fileList[0].raw : null;
-      CreateProduct(
+      
+      // 显示加载中提示
+      const loading = that.$loading({
+        lock: true,
+        text: '正在创建商品...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+        CreateProduct(
         that.productForm.productName,
         that.productForm.productInfo,
         image,
@@ -121,15 +158,46 @@ export default {
         that.productForm.durationHours,
         that.productForm.startAuctionTime
       ).then(function (resp) {
-        console.log(resp)
-        if (resp.data.status === 200) {
-          that.courseId = resp.data.courseId
-          that.$message.success("商品创建成功，id为:" + resp.data.courseId)
+        console.log('API响应：', resp);
+        loading.close(); // 关闭加载提示
+        
+        // 检查响应是否成功
+        if (resp.status === 200) {
+          let responseData = resp.data;
+  
+          // 处理响应数据
+          that.product_id = responseData.product_id || '未知';
+          that.$message.success("商品创建成功" + (responseData.product_id ? "，id为:" + responseData.product_id : ""));
+          
+          // 重置表单
           that.fileList = [];
+          that.productForm = {
+            productName: '',
+            productInfo: '',
+            startAuctionTime: null,
+            startPrice: null,
+            durationHours: null,
+          };
+        } else {
+          let errorMsg = "创建失败，请重试";
+          if (resp.data) {
+            if (typeof resp.data === 'string') {
+              try {
+                const errorData = JSON.parse(resp.data);
+                errorMsg = errorData.msg || errorMsg;
+              } catch(e) {
+                errorMsg = resp.data || errorMsg;
+              }
+            } else {
+              errorMsg = resp.data.msg || errorMsg;
+            }
+          }
+          that.$message.error(errorMsg);
         }
-        else {
-          that.$message.error(resp.data.msg);
-        }
+      }).catch(function(error) {
+        loading.close(); // 关闭加载提示
+        console.error("创建产品时出错:", error);
+        that.$message.error("网络错误，请重试");
       });
     },
     backallproduct() {
@@ -141,23 +209,40 @@ export default {
     removeChapter(index) {
       this.chapters.splice(index, 1);
     },
-    // printcha() {
-    //   this.chapters.forEach(function (item) {
-    //     console.log(item.number);
-    //     console.log(item.name);
-    //   });
-    // }
-    handleRemove(file) {
-      console.log(file)
+    // 图片相关处理方法
+    handleExceed() {
+      this.$message.warning('最多只能上传1张图片');
+    },
+    beforeUpload(file) {
+      // 验证文件类型
+      const isImage = file.type.startsWith('image/');
+      if (!isImage) {
+        this.$message.error('只能上传图片文件!');
+        return false;
+      }
+      
+      // 验证文件大小 (5MB = 5 * 1024 * 1024 bytes)
+      const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message.error('图片大小不能超过 5MB!');
+        return false;
+      }
+      
+      return true;
+    },
+    handleFileChange(file) {
+      // 保存文件对象到fileList
+      this.fileList = [file];
+    },
+    handleRemove() {
       this.fileList = [];
-
     },
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
     handleDownload(file) {
-      console.log(file)
+      console.log(file);
     },
   }
 }
