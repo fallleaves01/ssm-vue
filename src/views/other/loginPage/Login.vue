@@ -31,7 +31,7 @@
     </div>
     <!-- 注册盒子 -->
     <div class="register-form">
-      <el-form ref="regForm" :model="regForm" :rules="regRules" label-position="top">
+      <el-form ref="regForm" :model="regForm" :rules="regRules" label-position="left" label-width="100px">
       <!-- 标题盒子 -->
       <div class="title-box">
         <h1>注册</h1>
@@ -39,19 +39,30 @@
       <!-- 输入框盒子 -->
       <div class="input-box">
         <el-form-item label="用户名" prop="userName">
-          <el-input v-model="regForm.userName"></el-input>
+          <el-input v-model="regForm.userName" placeholder="请输入用户名"></el-input>
         </el-form-item>
 
         <el-form-item label="密码" prop="pwd">
-          <el-input type="password" v-model="regForm.pwd"></el-input>
+          <el-input type="password" v-model="regForm.pwd" placeholder="请输入密码"></el-input>
         </el-form-item>
 
         <el-form-item label="重复密码" prop="rpwd">
-          <el-input type="password" v-model="regForm.rpwd"></el-input>
+          <el-input type="password" v-model="regForm.rpwd" placeholder="请再次输入密码"></el-input>
         </el-form-item>
 
-        <p v-show="this.regForm.pwd !== this.regForm.rpwd" class="password_info">密码不一致！</p>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="regForm.phone" placeholder="可选"></el-input>
+        </el-form-item>
 
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="regForm.email" placeholder="可选"></el-input>
+        </el-form-item>
+
+        <el-form-item label="支付信息" prop="payment_info">
+          <el-input v-model="regForm.payment_info" placeholder="可选"></el-input>
+        </el-form-item>
+        
+        <p v-show="this.regForm.pwd !== this.regForm.rpwd" class="password_info" style="margin: 0;">密码不一致！</p>
       </div>
       <!-- 按钮盒子 -->
       <div class="btn-box">
@@ -125,7 +136,10 @@ export default {
       regForm:{
         userName: '',
         pwd: '',
-        rpwd: ''
+        rpwd: '',
+        phone: '',
+        email: '',
+        payment_info: ''
       },
       regRules: {
         userName: [
@@ -140,6 +154,7 @@ export default {
           {required: true, message: '请再次输入密码', trigger: 'blur'},
           {min: 1, max: 9, message: '长度在1到9个字符', trigger: 'blur'}
         ]
+        // phone、email、payment_info 不做必填和格式校验
       },
     };
   },
@@ -188,7 +203,7 @@ export default {
           })*/
           let data = {
             "user_name":this.loginForm.user_name,
-            "pwd":this.loginForm.pwd
+            "password":this.loginForm.pwd
           }
           login(data).then(function (resp) {
             console.log(resp)
@@ -222,7 +237,10 @@ export default {
           console.log(this.regForm);
           let data = {
             "user_name":this.regForm.userName,
-            "pwd":this.regForm.pwd
+            "password":this.regForm.pwd,
+            "phone":this.regForm.phone,
+            "email":this.regForm.email,
+            "payment_info":this.regForm.payment_info
           }
           register(data).then(function (resp) {
             console.log(resp)
