@@ -10,7 +10,7 @@ export function CreateProduct(
 ) {
     let obj = new FormData();
     obj.append("product_name", product_name);
-    obj.append("descreption", description);
+    obj.append("description", description);  // 修正拼写错误
     obj.append("image", image);
     obj.append("start_price", start_price);
     obj.append("due_time", due_time);
@@ -18,7 +18,7 @@ export function CreateProduct(
     return request({
         url: '/product/createProduct',
         method: 'post',
-        params: obj,
+        data: obj,  // 使用data而不是params传递FormData
     })
 }
 
@@ -33,14 +33,14 @@ export function GetReleasedProductList() {
 export function UpdateProductInfo(
     product_id,
     product_name,
-    descreption,
+    description,
     start_price,
     due_time
 ) {
     let obj = {
         "product_id": product_id,
         "product_name": product_name,
-        "descreption": descreption,
+        "description": description,
         "start_price": start_price,
         "due_time": due_time
     }
