@@ -8,7 +8,9 @@
   <div class="product-home">
     <!-- 商品已删除提示 -->
     <div v-if="productName === '商品不存在'" class="product-deleted-notice">
-      <el-icon class="deleted-icon"><Close /></el-icon>
+      <el-icon class="deleted-icon">
+        <Close />
+      </el-icon>
       <h2>商品不存在或已被删除</h2>
       <p>该商品可能已被删除、下架或者从未存在过</p>
     </div>
@@ -30,7 +32,8 @@
           状态：{{ statusText }}
         </p>
       </div>
-    </template>    <div class="buttons">
+    </template>
+    <div class="buttons">
       <!-- 根据商品状态显示不同的按钮 -->
       <template v-if="productName !== '商品不存在'">
         <el-button type="primary" @click="editProductInfo" v-if="canEdit">修改商品信息</el-button>
@@ -84,7 +87,7 @@ export default {
       statusText: '未知',
       isActive: true,
       canEdit: true,
-      
+
       // 编辑表单数据
       editDialogVisible: false,
       editForm: {
@@ -94,9 +97,9 @@ export default {
         dueTime: 0
       }
     };
-  },  created() {
+  }, created() {
     this.productId = this.$route.params.id;
-    
+
     // 尝试从路由查询参数中获取商品信息
     const productInfoParam = this.$route.query.productInfo;
     if (productInfoParam) {
@@ -121,33 +124,33 @@ export default {
       this.dueTime = product.due_time;
       this.planStartTime = product.plan_start_time;
       this.statusId = product.status || 0;
-      
+
       // 设置状态文本和其他属性
       this.setProductStatus();
-      
+
       // 初始化编辑表单
       this.initEditForm();
     },
-    
+
     // 设置商品状态和相关属性
     setProductStatus() {
-      switch(this.statusId) {
-        case 0: 
+      switch (this.statusId) {
+        case 0:
           this.statusText = '待拍卖';
           this.isActive = true;
           this.canEdit = true;
           break;
-        case 1: 
+        case 1:
           this.statusText = '拍卖中';
           this.isActive = true;
           this.canEdit = true;
           break;
-        case 2: 
+        case 2:
           this.statusText = '已成交';
           this.isActive = false;
           this.canEdit = false;
           break;
-        case 3: 
+        case 3:
           this.statusText = '已过期';
           this.isActive = false;
           this.canEdit = true;
@@ -156,7 +159,7 @@ export default {
           this.statusText = '未知';
       }
     },
-    
+
     // 初始化编辑表单
     initEditForm() {
       this.editForm.productName = this.productName;
@@ -164,18 +167,18 @@ export default {
       this.editForm.startPrice = this.startPrice;
       this.editForm.dueTime = this.dueTime;
     },
-      // 通过API加载商品详情（作为备选方案）
+    // 通过API加载商品详情（作为备选方案）
     loadProductDetail() {
       const vm = this;
-      
+
       // 使用GetReleasedProductList API获取所有已发布商品
-      GetReleasedProductList().then(function(resp) {
+      GetReleasedProductList().then(function (resp) {
         if (resp.data && resp.data.product_list) {
           // 在返回的商品列表中查找指定ID的商品
           const foundProduct = resp.data.product_list.find(
             product => product.product_id === parseInt(vm.productId, 10) || product.product_id === vm.productId
           );
-          
+
           if (foundProduct) {
             // 找到商品，加载数据
             vm.loadProductFromParams(foundProduct);
@@ -193,7 +196,7 @@ export default {
           vm.$message.error('获取商品信息失败');
           console.error("API返回异常:", resp);
         }
-      }).catch(function(error) {
+      }).catch(function (error) {
         // 网络错误处理
         vm.$message.error('网络错误，请稍后再试');
         console.error("API请求失败:", error);
@@ -201,35 +204,35 @@ export default {
     },
     editProductInfo() {
       this.editDialogVisible = true;
-    },    submitEdit() {
+    }, submitEdit() {
       const vm = this;
-      
+
       UpdateProductInfo(
         vm.productId,
         vm.editForm.productName,
         vm.editForm.description,
         vm.editForm.startPrice,
         vm.editForm.dueTime
-      ).then(function(resp) {
+      ).then(function (resp) {
         if (resp.data) {
-            if (resp.data.status === 0) {
-          vm.$message.success('商品信息修改成功');
-          vm.editDialogVisible = false;
-          vm.productName = vm.editForm.productName;
-          vm.description = vm.editForm.description;
-          vm.startPrice = vm.editForm.startPrice;
-          vm.dueTime = vm.editForm.dueTime;
-        } else if (resp.data.status == 1) {
-             vm.$message.error('商品不存在');
-        } else if (resp.data.status == 2) {
-             vm.$message.error('商品正在拍卖中');
+          if (resp.data.status === 0) {
+            vm.$message.success('商品信息修改成功');
+            vm.editDialogVisible = false;
+            vm.productName = vm.editForm.productName;
+            vm.description = vm.editForm.description;
+            vm.startPrice = vm.editForm.startPrice;
+            vm.dueTime = vm.editForm.dueTime;
+          } else if (resp.data.status == 1) {
+            vm.$message.error('商品不存在');
+          } else if (resp.data.status == 2) {
+            vm.$message.error('商品正在拍卖中');
+          } else {
+            vm.$message.error(resp.data?.msg || '修改商品信息失败');
+          }
         } else {
-             vm.$message.error(resp.data?.msg || '修改商品信息失败');
-        }
-    } else {
           vm.$message.error(resp.data?.msg || '修改商品信息失败');
         }
-      }).catch(function(error) {
+      }).catch(function (error) {
         console.error('修改商品信息出错:', error);
         vm.$message.error('网络错误，请稍后再试');
       });
@@ -241,7 +244,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        DeleteProduct(vm.productId).then(function(resp) {
+        DeleteProduct(vm.productId).then(function (resp) {
           if (resp.data && resp.data.status === 0) {
             vm.$message.success('商品已成功删除');
             vm.backToList(); // 删除成功后返回列表
@@ -250,7 +253,7 @@ export default {
           } else {
             vm.$message.error(resp.data?.msg || '删除商品失败');
           }
-        }).catch(function(error) {
+        }).catch(function (error) {
           console.error('删除商品出错:', error);
           vm.$message.error('网络错误，请稍后再试');
         });
@@ -263,14 +266,14 @@ export default {
     },
     formatDateTime(timestamp) {
       if (!timestamp) return '未设置';
-      
+
       const date = new Date(timestamp);
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
       const hours = String(date.getHours()).padStart(2, '0');
       const minutes = String(date.getMinutes()).padStart(2, '0');
-      
+
       return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
   }
@@ -400,16 +403,16 @@ export default {
   .product-info {
     width: 95%;
   }
-  
+
   .buttons {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .buttons .el-button {
     width: 100%;
   }
-  
+
   .product-deleted-notice {
     width: 95%;
     padding: 20px;
