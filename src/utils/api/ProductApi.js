@@ -137,7 +137,7 @@ export function DeleteProduct(product_id) {
 /**
  * 根据商品id获得Product表中的信息。
  * @param {number} product_id 
- * @returns {{Product_info}}
+ * @returns {Product_info}
  */
 export function GetProductInfo(product_id) {
     let obj = {
