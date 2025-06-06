@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { GetBuyerOrderList, GetSellerOrderList, payOrder, cancelOrder, receiveOrder } from '@/utils/api/OrderApi';
+import { GetBuyerOrderList, GetSellerOrderList, PayOrder, CancelOrder, ReceiveOrder } from '@/utils/api/OrderApi';
 import { Search } from '@element-plus/icons-vue';
 
 export default {
@@ -143,8 +143,8 @@ export default {
     },
     payOrder(productId) {
       const vm = this;
-      payOrder(productId).then(function(resp) {
-        if (resp.data && resp.data.status === 0) {
+      PayOrder(productId).then(function(resp) {
+        if (resp.data && resp.data.status === 1) {
           vm.$message.success("支付成功");
           vm.loadBuyerOrders(); // 重新加载订单列表
         } else {
@@ -162,8 +162,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        cancelOrder(productId).then(function(resp) {
-          if (resp.data && resp.data.status === 0) {
+        CancelOrder(productId).then(function(resp) {
+          if (resp.data && resp.data.status === 3) {
             vm.$message.success("订单已取消");
             vm.loadBuyerOrders(); // 重新加载订单列表
           } else {
@@ -184,8 +184,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        receiveOrder(productId).then(function(resp) {
-          if (resp.data && resp.data.status === 0) {
+        ReceiveOrder(productId).then(function(resp) {
+          if (resp.data && resp.data.status === 2) {
             vm.$message.success("已确认收款");
             vm.loadSellerOrders(); // 重新加载订单列表
           } else {

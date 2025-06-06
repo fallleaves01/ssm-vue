@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { getOrderInfo, payOrder, cancelOrder, receiveOrder } from '@/utils/api/OrderApi';
+import { GetOrderInfo, PayOrder, CancelOrder, ReceiveOrder } from '@/utils/api/OrderApi';
 import { GetProductInfo } from '@/utils/api/ProductApi';
 
 export default {
@@ -105,7 +105,7 @@ export default {
   methods: {
     fetchOrderInfo(productId) {
       const vm = this;
-      getOrderInfo(productId).then(function(resp) {
+      GetOrderInfo(productId).then(function(resp) {
         if (resp.data) {
           vm.order = resp.data;
           vm.fetchProductInfo();
@@ -120,8 +120,8 @@ export default {
     fetchProductInfo() {
       const vm = this;
       GetProductInfo(this.order.product_id).then(function(resp) {
-        if (resp.data && resp.data.product_info) {
-          vm.product = resp.data.product_info;
+        if (resp.data) {
+          vm.product = resp.data;
         } else {
           vm.$message.warning('获取商品详情失败');
         }
@@ -134,8 +134,8 @@ export default {
     },
     payOrder() {
       const vm = this;
-      payOrder(this.order.product_id).then(function(resp) {
-        if (resp.data && resp.data.status === 0) {
+      PayOrder(this.order.product_id).then(function(resp) {
+        if (resp.data && resp.data.status === 1) {
           vm.$message.success("支付成功");
           vm.order.state = 1; // 更新状态
           vm.order.pay_time = new Date().toISOString(); // 更新支付时间
@@ -154,8 +154,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        cancelOrder(vm.order.product_id).then(function(resp) {
-          if (resp.data && resp.data.status === 0) {
+        CancelOrder(vm.order.product_id).then(function(resp) {
+          if (resp.data && resp.data.status === 3) {
             vm.$message.success("订单已取消");
             vm.order.state = 3; // 更新状态
             vm.order.cancel_time = new Date().toISOString(); // 更新取消时间
@@ -177,8 +177,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        receiveOrder(vm.order.product_id).then(function(resp) {
-          if (resp.data && resp.data.status === 0) {
+        ReceiveOrder(vm.order.product_id).then(function(resp) {
+          if (resp.data && resp.data.status === 2) {
             vm.$message.success("已确认收款");
             vm.order.state = 2; // 更新状态
             vm.order.receive_time = new Date().toISOString(); // 更新收款时间

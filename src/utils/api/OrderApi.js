@@ -45,7 +45,7 @@ export function GetSellerOrderList() {
  *      status: integer //enum(0:'待支付',1:'已支付',2:'已完成',3:'已取消'), 订单状态
  * }}
  */
-export function payOrder(product_id) {
+export function PayOrder(product_id) {
     let obj = {
         "product_id": product_id
     }
@@ -64,7 +64,7 @@ export function payOrder(product_id) {
  *      status: number, //enum(0:'待支付',1:'已支付',2:'已完成',3:'已取消'), 订单状态
  * }}
  */
-export function cancelOrder(product_id) {
+export function CancelOrder(product_id) {
     let obj = {
         "product_id": product_id
     }
@@ -84,7 +84,7 @@ export function cancelOrder(product_id) {
  *      status: integer //enum(0:'待支付',1:'已支付',2:'已完成',3:'已取消'), 订单状态
  * }}
  */
-export function receiveOrder(product_id) {
+export function ReceiveOrder(product_id) {
     let obj = {
         "product_id": product_id
     }
@@ -100,7 +100,7 @@ export function receiveOrder(product_id) {
  * @param {number} product_id 
  * @returns {Order_info}
  */
-export function getOrderInfo(product_id) {
+export function GetOrderInfo(product_id) {
     let obj = {
         "product_id": product_id
     }
