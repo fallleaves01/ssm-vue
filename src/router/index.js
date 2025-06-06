@@ -14,24 +14,7 @@ import BuyProduct from '@/views/Product/BuyProduct.vue'
 import CreateProduct from '@/views/Product/CreateProduct.vue'
 import AllProductDetail from '@/views/Product/AllProductDetail.vue'
 
-import Myquestions from '@/views/Myquestions/Myquestions.vue'
 
-import CoursePage from '@/views/course/CoursePage/CoursePage.vue'
-import CourseInfo from '@/views/course/CoursePage/CourseInfo.vue'
-import StudentList from '@/views/course/StudentList/StudentList.vue'
-import CreateProblem from '@/views/course/CreateProblem/CreateProblem.vue'
-import Forum from '@/views/course/Forum/ForumPage.vue'
-import PostPage from '@/views/course/Forum/PostPage.vue'
-import CreatePage from '@/views/course/Forum/CreatePage.vue'
-import AnnouncePage from '@/views/course/AnnouncePage/AnnouncePage.vue'
-
-
-import ProblemList from '@/views/course/ProblemList/ProblemList.vue'
-import InCourse from '@/views/course/InCourse/InCourse.vue'
-import DocumentList from '@/views/course/DocumentList/DocumentList.vue'
-
-
-import ProblemInfo from '@/views/course/ProblemInfo/ProblemInfo.vue'
 
 
 const routes = [
@@ -58,22 +41,6 @@ const routes = [
       { path: '/perinfo', component: PerInfo },
       { path: '/buyproduct', component: BuyProduct },
       { path: '/createproduct', component: CreateProduct },
-      { path: '/myproduct/coursepage/:id', component: CoursePage },
-      { path: '/Myquestions', name: 'MyQuestions', component: Myquestions },
-      { path: '/myproduct/coursepage/studentlist/:id', component: StudentList },
-      { path: '/myproduct/coursepage/createproblem/:id', component: CreateProblem },
-
-      { path: '/myproduct/coursepage/forum/:id/:forumId', component: Forum },
-      { path: '/myproduct/coursepage/forum/post/:id/:forumId/:postId/:postName', component: PostPage },
-      { path: '/myproduct/coursepage/forum/createpage/:id/:forumId', component: CreatePage },
-
-
-      { path: '/myproduct/coursepage/problemlist/:id', component: ProblemList },
-      { path: '/myproduct/coursepage/:courseId/problemlist/problem/:problemId', name: 'ProblemInfo', component: ProblemInfo },
-      { path: '/myproduct/coursepage/incourse/:id', component: InCourse },
-      { path: '/myproduct/coursepage/documentlist/:id', component: DocumentList },
-      { path: '/myproduct/coursepage/anncouncement/:id', component: AnnouncePage },
-      { path: '/myproduct/coursepage/courseinfo/:id', component: CourseInfo },
 
       {
         path: '/myauction',

@@ -95,7 +95,6 @@
 </template>
 <script>
 
-import { CreateCourse } from '@/utils/api/CreateProductApi'
 import { CreateProduct } from '@/utils/api/ProductApi';
 import { Delete, Download, Plus, ZoomIn, Check } from '@element-plus/icons-vue'
 export default {

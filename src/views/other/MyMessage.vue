@@ -4,7 +4,6 @@
     <el-breadcrumb-item >我的消息</el-breadcrumb-item>
 </el-breadcrumb>
     <div>
-        <h3>我的消息</h3>
         <div class="announcement-list">
         <el-collapse v-model="expandedChapter">
           <el-collapse-item v-for="(announcements, courseName) in classifiedAnnouncement" :title="courseName" :name="courseName" :key="courseName">
