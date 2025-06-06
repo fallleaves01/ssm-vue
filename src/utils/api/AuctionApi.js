@@ -49,6 +49,11 @@ export function StartAuction(product_id) {
     })
 }
 
+/**
+ * 结束竞拍
+ * @param {number} product_id 
+ * @returns {number} - 0成功结束，1不在竞拍时段，2无效的商品id(商品不存在或者不属于当前卖家)
+ */
 export function EndAuction(product_id) {
     let obj = {
         "product_id": product_id
@@ -60,9 +65,9 @@ export function EndAuction(product_id) {
     })
 }
 
-export function GetAuctionInfo(auction_id) {
+export function GetAuctionInfo(product_id) {
     let obj = {
-        "auction_id": auction_id
+        "product_id": product_id
     }
     return request({
         url: '/auction/getAuctionInfo',

@@ -21,40 +21,37 @@
       <div class="info-row"><span class="label">出价次数：</span><span class="value">{{ auction.bid_count ?? '-' }}</span></div>
       <div class="info-row"><span class="label">首次出价时间：</span><span class="value">{{ auction.first_bid_time ?? '-' }}</span></div>
       <div class="info-row"><span class="label">最近出价时间：</span><span class="value">{{ auction.last_bid_time ?? '-' }}</span></div>
-    </div>
-    <div class="buttons">
-      <el-input-number v-model="bidPrice" :min="minBidPrice" :precision="2" placeholder="输入竞价" style="margin-right:10px;" />
-      <el-button type="primary" @click="submitBid">竞价</el-button>
+    </div>    <div class="buttons">
+      <!-- 正常的竞价按钮，只有非卖家才能出价 -->
+      <template v-if="!isProductSeller && product.state === 1">
+        <el-input-number v-model="bidPrice" :min="minBidPrice" :precision="2" placeholder="输入竞价" style="margin-right:10px;" />
+        <el-button type="primary" @click="submitBid">竞价</el-button>
+      </template>
       <el-button @click="backToList">返回列表</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { Bid, GetAuctionInfo } from '@/utils/api/AuctionApi';
+import { Bid, GetAuctionInfo, EndAuction } from '@/utils/api/AuctionApi';
 import { GetUserInfo } from '@/utils/api/UserApi';
 import { GetProductInfo } from '@/utils/api/ProductApi';
 
-export default {
-  data() {
+export default {  data() {
     return {
       product: {},
       auction: {},
       bidPrice: null,
       minBidPrice: 0,
       userName: '',
-      auctionId: null,
+      isProductSeller: false, // 是否是商品的卖家
     };
   },  created() {
     const vm = this;
     // 获取路由参数
     const productId = this.$route.params.id; // 修正这里，使用id而不是product_id
-    const auctionId = this.$route.query.auction_id;
-    this.auctionId = auctionId;
     
-    console.log("Auction Detail created, productId:", productId, "auctionId:", auctionId);
-
-    // 使用GetProductInfo接口获取商品信息
+    console.log("Auction Detail created, productId:", productId);    // 使用GetProductInfo接口获取商品信息
     GetProductInfo(productId).then(function(resp) {
       if (resp.data && resp.data) {
         vm.product = resp.data;
@@ -63,8 +60,13 @@ export default {
         vm.minBidPrice = basePrice + 1;
         vm.bidPrice = vm.minBidPrice;
         
+        // 如果用户名已获取，检查当前用户是否是卖家
+        if (vm.userName && vm.product.seller_name) {
+          vm.isProductSeller = (vm.userName === vm.product.seller_name);
+        }
+        
         // 获取商品成功后获取竞拍信息
-        if (vm.auctionId) {
+        if (vm.product) {
           vm.loadAuctionInfo();
         }
       } else {
@@ -73,11 +75,15 @@ export default {
     }).catch(function(error) {
       vm.$message.error('获取商品信息失败');
     });
-    
-    // 使用GetUserInfo接口获取用户名
+      // 使用GetUserInfo接口获取用户名
     GetUserInfo().then(function(resp) {
       if (resp.data && resp.data.user_name) {
         vm.userName = resp.data.user_name;
+        
+        // 如果产品信息已加载，检查当前用户是否是卖家
+        if (vm.product && vm.product.seller_name) {
+          vm.isProductSeller = (vm.userName === vm.product.seller_name);
+        }
       } else {
         vm.$message.error('获取用户信息失败');
       }
@@ -88,7 +94,7 @@ export default {
     // 加载竞拍信息
     loadAuctionInfo() {
       const vm = this;
-      GetAuctionInfo(vm.auctionId).then(function(resp) {
+      GetAuctionInfo(vm.product.product_id).then(function(resp) {
         if (resp.data) {
           vm.auction = resp.data;
         } else {
@@ -118,11 +124,8 @@ export default {
               const basePrice = vm.product.current_price ? Number(vm.product.current_price) : Number(vm.product.start_price);
               vm.minBidPrice = basePrice + 1;
               vm.bidPrice = vm.minBidPrice;
-              
-              // 重新获取竞拍信息
-              if (vm.auctionId) {
-                vm.loadAuctionInfo();
-              }
+                // 重新获取竞拍信息
+              vm.loadAuctionInfo();
             }
           });
         } else {
@@ -131,9 +134,45 @@ export default {
       }).catch(function(error) {
         vm.$message.error('网络错误，请稍后再试');
       });
-    },
-    backToList() {
+    },    backToList() {
       this.$router.push('/myauction');
+    },
+    // 结束竞拍
+    endAuction() {
+      const vm = this;
+      
+      // 确认对话框
+      this.$confirm('确定要结束当前竞拍吗？此操作不可逆！', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        EndAuction(vm.product.product_id).then(function(resp) {
+          if (resp.data && resp.data.status === 0) {
+            vm.$message.success('竞拍已成功结束');
+              // 重新获取商品信息
+            GetProductInfo(vm.product.product_id).then(function(resp) {
+              if (resp.data && resp.data) {
+                vm.product = resp.data;
+                // 同时刷新竞拍信息
+                vm.loadAuctionInfo();
+              }
+            });
+            
+          } else if (resp.data && resp.data.status === 1) {
+            vm.$message.error('商品不在竞拍时段，无法结束');
+          } else if (resp.data && resp.data.status === 2) {
+            vm.$message.error('无效的商品ID或您不是此商品的卖家');
+          } else {
+            vm.$message.error('结束竞拍失败');
+          }
+        }).catch(function(error) {
+          vm.$message.error('网络错误，请稍后再试');
+          console.error('结束竞拍失败:', error);
+        });
+      }).catch(() => {
+        vm.$message.info('已取消操作');
+      });
     },
     formatDateTime(ts) {
       if (!ts) return '未设置';

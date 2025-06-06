@@ -37,6 +37,7 @@
       <!-- 根据商品状态显示不同的按钮 -->
       <template v-if="productName !== '商品不存在'">
         <el-button type="primary" @click="startAuction" v-if="beforeAuction">开始拍卖</el-button>
+        <el-button type="warning" @click="endAuction" v-if="inAuction">结束拍卖</el-button>
         <el-button type="primary" @click="editProductInfo" v-if="canEdit">修改商品信息</el-button>
         <el-button type="danger" @click="confirmDelete">删除商品</el-button>
       </template>
@@ -72,7 +73,7 @@
 <script>
 import { UpdateProductInfo, DeleteProduct, GetProductInfo } from '@/utils/api/ProductApi';
 import { Close } from '@element-plus/icons-vue';
-import { StartAuction} from "@/utils/api/AuctionApi";
+import { StartAuction, EndAuction } from "@/utils/api/AuctionApi";
 
 export default {
   components: { Close },
@@ -90,6 +91,7 @@ export default {
       isActive: true,
       canEdit: true,
       beforeAuction: false,
+      inAuction: false,
 
       // 编辑表单数据
       editDialogVisible: false,
@@ -118,10 +120,6 @@ export default {
       this.productId = product.product_id;
       console.log("status = ", product.state);
       console.log(typeof this.productId)
-      if (this.statusId === 0) {
-        this.beforeAuction = true;
-        console.log(" set true ");
-      }
 
       // 设置状态文本和其他属性
       this.setProductStatus();
@@ -137,24 +135,34 @@ export default {
           this.statusText = '待拍卖';
           this.isActive = true;
           this.canEdit = true;
+          this.beforeAuction = true;
+          this.inAuction = false;
           break;
         case 1:
           this.statusText = '拍卖中';
           this.isActive = true;
           this.canEdit = true;
+          this.beforeAuction = false;
+          this.inAuction = true;
           break;
         case 2:
           this.statusText = '已成交';
           this.isActive = false;
           this.canEdit = false;
+          this.beforeAuction = false;
+          this.inAuction = false;
           break;
         case 3:
           this.statusText = '已过期';
           this.isActive = false;
           this.canEdit = true;
+          this.beforeAuction = false;
+          this.inAuction = false;
           break;
         default:
           this.statusText = '未知';
+          this.beforeAuction = false;
+          this.inAuction = false;
       }
     },
 
@@ -187,6 +195,42 @@ export default {
               break;
           }
         }
+      });
+    },//结束拍卖
+    endAuction() {
+      let vm = this;
+      this.$confirm('确定要结束此商品的拍卖吗？结束后将不再接受新的竞价！', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        EndAuction(vm.productId).then(function (resp) {
+          if (resp.data) {
+            switch (resp.data.status) {
+              case 0:
+                vm.$message.success("已成功结束拍卖");
+                // 重新加载商品信息以更新状态
+                vm.loadProductDetail();
+                break;
+              case 1:
+                vm.$message.error("商品不在拍卖中");
+                // 重新加载商品信息以更新状态
+                vm.loadProductDetail();
+                break;
+              case 2:
+                vm.$message.error("无效的商品ID或商品不属于您");
+                break;
+              default:
+                vm.$message.error("未知错误");
+                break;
+            }
+          }
+        }).catch(function (error) {
+          console.error('结束拍卖出错:', error);
+          vm.$message.error('网络错误，请稍后再试');
+        });
+      }).catch(() => {
+        vm.$message.info('已取消操作');
       });
     },// 通过API加载商品详情
     loadProductDetail() {

@@ -80,9 +80,6 @@ export default {
       console.log("Viewing auction detail for product:", product.product_id, "with auction:", auction.auction_id);
       this.$router.push({
         path: '/myauction/detail/' + product.product_id,
-        query: {
-          auction_id: auction?.auction_id
-        }
       });
     },
     productStateText(state) {
