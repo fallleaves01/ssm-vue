@@ -59,3 +59,14 @@ export function EndAuction(product_id) {
         data: obj,
     })
 }
+
+export function GetAuctionInfo(auction_id) {
+    let obj = {
+        "auction_id": auction_id
+    }
+    return request({
+        url: '/auction/getAuctionInfo',
+        method: 'get',
+        params: obj,
+    })
+}

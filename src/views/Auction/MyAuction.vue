@@ -47,6 +47,7 @@ export default {
   created() {
     // 使用GetUserInfo接口获取用户名
     let vm = this;
+    console.log("start my auction");
     GetUserInfo().then(function(resp) {
       if (resp.data && resp.data.user_name) {
         vm.userName = resp.data.user_name;
@@ -75,11 +76,12 @@ export default {
         vm.auctionList = [];
       });
     },    viewAuctionDetail(product, auction) {
-      // 跳转到详情页，只传递竞拍信息，商品信息通过API获取
+      // 跳转到详情页，只传递竞拍ID，商品信息和竞拍信息都通过API获取
+      console.log("Viewing auction detail for product:", product.product_id, "with auction:", auction.auction_id);
       this.$router.push({
         path: '/myauction/detail/' + product.product_id,
         query: {
-          auctionInfo: JSON.stringify(auction)
+          auction_id: auction?.auction_id
         }
       });
     },

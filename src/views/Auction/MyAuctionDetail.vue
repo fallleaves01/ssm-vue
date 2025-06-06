@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { Bid } from '@/utils/api/AuctionApi';
+import { Bid, GetAuctionInfo } from '@/utils/api/AuctionApi';
 import { GetUserInfo } from '@/utils/api/UserApi';
 import { GetProductInfo } from '@/utils/api/ProductApi';
 
@@ -42,18 +42,18 @@ export default {
       auction: {},
       bidPrice: null,
       minBidPrice: 0,
-      userName: ''
+      userName: '',
+      auctionId: null,
     };
   },  created() {
     const vm = this;
     // 获取路由参数
-    const productId = this.$route.params.product_id;
-    const auctionInfo = this.$route.query.auctionInfo;
+    const productId = this.$route.params.id; // 修正这里，使用id而不是product_id
+    const auctionId = this.$route.query.auction_id;
+    this.auctionId = auctionId;
     
-    if (auctionInfo) {
-      this.auction = JSON.parse(auctionInfo);
-    }
-    
+    console.log("Auction Detail created, productId:", productId, "auctionId:", auctionId);
+
     // 使用GetProductInfo接口获取商品信息
     GetProductInfo(productId).then(function(resp) {
       if (resp.data && resp.data) {
@@ -62,6 +62,11 @@ export default {
         const basePrice = vm.product.current_price ? Number(vm.product.current_price) : Number(vm.product.start_price);
         vm.minBidPrice = basePrice + 1;
         vm.bidPrice = vm.minBidPrice;
+        
+        // 获取商品成功后获取竞拍信息
+        if (vm.auctionId) {
+          vm.loadAuctionInfo();
+        }
       } else {
         vm.$message.error('获取商品信息失败');
       }
@@ -79,8 +84,23 @@ export default {
     }).catch(function(error) {
       vm.$message.error('获取用户信息失败');
     });
-  },
-  methods: {    submitBid() {
+  },  methods: {
+    // 加载竞拍信息
+    loadAuctionInfo() {
+      const vm = this;
+      GetAuctionInfo(vm.auctionId).then(function(resp) {
+        if (resp.data) {
+          vm.auction = resp.data;
+        } else {
+          vm.$message.error('获取竞拍信息失败');
+        }
+      }).catch(function(error) {
+        vm.$message.error('获取竞拍信息失败');
+        console.error("获取竞拍信息失败:", error);
+      });
+    },
+    
+    submitBid() {
       if (!this.bidPrice || this.bidPrice < this.minBidPrice) {
         this.$message.error('请输入有效的竞价（必须高于当前最高价）');
         return;
@@ -89,18 +109,20 @@ export default {
       Bid(this.bidPrice, this.userName, this.product.product_id).then(function(resp) {
         if (resp.data.status === 0) {
           vm.$message.success('出价成功');
-          // 更新本地最高价和次数
-          vm.auction.max_bid_price = vm.bidPrice;
-          vm.auction.bid_count = (parseInt(vm.auction.bid_count) || 0) + 1;
           
-          // 重新获取商品信息，更新最新的竞拍状态
+          // 重新获取商品信息和竞拍信息，确保数据最新
           GetProductInfo(vm.product.product_id).then(function(resp) {
-            if (resp.data && resp.data.product) {
-              vm.product = resp.data.product;
+            if (resp.data && resp.data) {
+              vm.product = resp.data;
               // 重新计算最低出价
               const basePrice = vm.product.current_price ? Number(vm.product.current_price) : Number(vm.product.start_price);
               vm.minBidPrice = basePrice + 1;
               vm.bidPrice = vm.minBidPrice;
+              
+              // 重新获取竞拍信息
+              if (vm.auctionId) {
+                vm.loadAuctionInfo();
+              }
             }
           });
         } else {
