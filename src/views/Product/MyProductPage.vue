@@ -36,6 +36,7 @@
     <div class="buttons">
       <!-- 根据商品状态显示不同的按钮 -->
       <template v-if="productName !== '商品不存在'">
+        <el-button type="primary" @click="startAuction" v-if="beforeAuction">开始拍卖</el-button>
         <el-button type="primary" @click="editProductInfo" v-if="canEdit">修改商品信息</el-button>
         <el-button type="danger" @click="confirmDelete">删除商品</el-button>
       </template>
@@ -71,6 +72,7 @@
 <script>
 import { UpdateProductInfo, DeleteProduct, GetReleasedProductList } from '@/utils/api/ProductApi';
 import { Close } from '@element-plus/icons-vue';
+import { StartAuction} from "@/utils/api/AuctionApi";
 
 export default {
   components: { Close },
@@ -87,6 +89,7 @@ export default {
       statusText: '未知',
       isActive: true,
       canEdit: true,
+      beforeAuction: false,
 
       // 编辑表单数据
       editDialogVisible: false,
@@ -123,7 +126,14 @@ export default {
       this.startPrice = product.start_price;
       this.dueTime = product.due_time;
       this.planStartTime = product.plan_start_time;
-      this.statusId = product.status || 0;
+      this.statusId = product.state || 0;
+      this.productId = product.product_id;
+      console.log("status = ", product.state);
+      console.log(typeof this.productId)
+      if (this.statusId === 0) {
+        this.beforeAuction = true;
+        console.log(" set true ");
+      }
 
       // 设置状态文本和其他属性
       this.setProductStatus();
@@ -166,6 +176,29 @@ export default {
       this.editForm.description = this.description;
       this.editForm.startPrice = this.startPrice;
       this.editForm.dueTime = this.dueTime;
+    },
+    //启动开始拍卖
+    startAuction() {
+      let vm = this;
+      StartAuction(vm.productId).then(function (resp) {
+        if (resp.data) {
+          console.log(resp.data.status);
+          switch (resp.data.status) {
+            case 0:
+              vm.$message.success("开始拍卖");
+              break;
+            case 1:
+              vm.$message.error("商品正在拍卖中");
+              break;
+            case 2:
+              vm.$message.error("商品拍卖已结束");
+              break;
+            default:
+              vm.$message.error("未知错误");
+              break;
+          }
+        }
+      });
     },
     // 通过API加载商品详情（作为备选方案）
     loadProductDetail() {

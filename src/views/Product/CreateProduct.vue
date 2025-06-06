@@ -150,13 +150,14 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
+      let dateTimeStr = new Date(that.productForm.startAuctionTime).toISOString().replace('T', ' ').substring(0, 19);
         CreateProduct(
         that.productForm.productName,
         that.productForm.productInfo,
         image,
         that.productForm.startPrice,
         that.productForm.durationHours,
-        that.productForm.startAuctionTime
+        dateTimeStr
       ).then(function (resp) {
         console.log('API响应：', resp);
         loading.close(); // 关闭加载提示
