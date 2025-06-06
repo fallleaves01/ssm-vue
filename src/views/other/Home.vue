@@ -40,13 +40,18 @@
                 <Edit />
               </el-icon>
               <span>我的竞拍</span>
-            </el-menu-item>
-
-            <el-menu-item index="/myproduct">
+            </el-menu-item>            <el-menu-item index="/myproduct">
               <el-icon>
                 <UserFilled />
               </el-icon>
               <span>我的商品</span>
+            </el-menu-item>
+
+            <el-menu-item index="/myorder">
+              <el-icon>
+                <ShoppingCart />
+              </el-icon>
+              <span>我的订单</span>
             </el-menu-item>
 
             <el-menu-item index="/mymessage">

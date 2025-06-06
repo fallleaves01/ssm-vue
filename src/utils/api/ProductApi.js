@@ -1,5 +1,24 @@
 import request from '@/utils/request'
 
+/**
+ * @typedef {Object} Product_info
+ * @property {number} product_id - 商品ID
+ * @property {string} product_name - 商品名称
+ * @property {string} description - 商品描述
+ * @property {string} image - 商品图片URL
+ * @property {string<date-time>} create_time - 起拍价
+ * @property {number} start_price - 起拍价
+ * @property {number} current_price - 当前价
+ * @property {string} current_bidder_name - 当前出价者姓名
+ * @property {number} state - 商品状态，0:未开始, 1:竞拍中, 2:已结束
+ * @property {string<date-time>} plan_start_time - 计划开始时间
+ * @property {string<date-time>} start_time - 竞拍开始时间
+ * @property {number} due_time - 竞拍持续时间
+ * @property {string<date-time>} end_time - 竞拍结束时间
+ */
+
+
+
 export function CreateProduct(
     product_name,
     description,
@@ -112,5 +131,21 @@ export function DeleteProduct(product_id) {
         url: '/product/deleteProduct',
         method: 'post',
         data: obj,
+    })
+}
+
+/**
+ * 根据商品id获得Product表中的信息。
+ * @param {number} product_id 
+ * @returns {{Product_info}}
+ */
+export function GetProductInfo(product_id) {
+    let obj = {
+        "product_id": product_id
+    }
+    return request({
+        url: '/product/getProductInfo',
+        method: 'get',
+        params: obj,
     })
 }

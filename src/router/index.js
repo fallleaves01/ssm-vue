@@ -14,6 +14,10 @@ import BuyProduct from '@/views/Product/BuyProduct.vue'
 import CreateProduct from '@/views/Product/CreateProduct.vue'
 import AllProductDetail from '@/views/Product/AllProductDetail.vue'
 
+// 订单相关
+import MyOrder from '@/views/Order/MyOrder.vue'
+import MyOrderDetail from '@/views/Order/MyOrderDetail.vue'
+
 
 
 
@@ -37,10 +41,11 @@ const routes = [
       { path: '/myproduct/create', component: CreateProduct },
       { path: '/myproduct/detail/:id', component: () => import('@/views/Product/MyProductPage.vue') },      { path: '/allproduct', component: AllProduct },
       { path: '/allproduct/detail/:id', component: AllProductDetail },
-      { path: '/mymessage', component: MyMessage },
-      { path: '/perinfo', component: PerInfo },
+      { path: '/mymessage', component: MyMessage },      { path: '/perinfo', component: PerInfo },
       { path: '/buyproduct', component: BuyProduct },
       { path: '/createproduct', component: CreateProduct },
+      { path: '/myorder', component: MyOrder },
+      { path: '/myorder/detail/:id', component: MyOrderDetail },
 
       {
         path: '/myauction',
