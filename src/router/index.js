@@ -12,6 +12,7 @@ import MyProduct from '@/views/Product/MyProduct.vue'
 import AllProduct from '@/views/Product/AllProduct.vue'
 import BuyProduct from '@/views/Product/BuyProduct.vue'
 import CreateProduct from '@/views/Product/CreateProduct.vue'
+import AllProductDetail from '@/views/Product/AllProductDetail.vue'
 
 import Myquestions from '@/views/Myquestions/Myquestions.vue'
 
@@ -51,8 +52,8 @@ const routes = [
     children: [
       { path: '/welcome', component: Welcome }, { path: '/myproduct', component: MyProduct },
       { path: '/myproduct/create', component: CreateProduct },
-      { path: '/myproduct/detail/:id', component: () => import('@/views/Product/MyProductPage.vue') },
-      { path: '/allproduct', component: AllProduct },
+      { path: '/myproduct/detail/:id', component: () => import('@/views/Product/MyProductPage.vue') },      { path: '/allproduct', component: AllProduct },
+      { path: '/allproduct/detail/:id', component: AllProductDetail },
       { path: '/mymessage', component: MyMessage },
       { path: '/perinfo', component: PerInfo },
       { path: '/buyproduct', component: BuyProduct },

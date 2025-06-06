@@ -21,11 +21,10 @@
           </el-col>
         </el-row>
       </div>
-    </div>
-    <!-- 全部商品列表 -->
+    </div>    <!-- 全部商品列表 -->
     <div class="product-list">
       <el-row :gutter="20">
-        <el-col :span="8" v-for="product in productList" :key="product.id">
+        <el-col :span="8" v-for="product in productList" :key="product.product_id">
           <el-card class="product-card" shadow="hover">
             <div slot="header">
               <img :src="product.image" alt="商品图片" class="product-cover" />
@@ -33,8 +32,12 @@
             <div class="product-info">
               <h2>{{ product.product_name }}</h2>
               <p>{{ product.description }}</p>
+              <p>起拍价: ¥{{ product.start_price }}</p>
+              <p v-if="product.current_price" class="current-price">当前价: ¥{{ product.current_price }}</p>
+              <p class="state-label" :class="'state-' + product.state">{{ productStateText(product.state) }}</p>
             </div>
             <div class="product-footer">
+              <el-button type="primary" @click="viewProductDetail(product)">查看详情</el-button>
               <el-button type="success" @click="buyproduct(product.product_id)"
                 v-if="!buyer_auction_pro_id.has(product.product_id)">加入竞拍</el-button>
             </div>
@@ -103,6 +106,17 @@ export default {
       console.log(error)
     }
   }, methods: {
+    viewProductDetail(product) {
+      // 跳转到详情页，带上商品信息
+      const isInAuction = this.buyer_auction_pro_id.has(product.product_id);
+      this.$router.push({
+        path: '/allproduct/detail/' + product.product_id,
+        query: {
+          productInfo: JSON.stringify(product),
+          isInAuction: isInAuction.toString()
+        }
+      });
+    },
     // createCourse() {
     //   this.$router.push("/allproduct/createproduct")
     // }
@@ -128,7 +142,7 @@ export default {
             break;
         }
       });
-    }, search() {
+    },    search() {
       let vm = this
       SearchTotalProductList(vm.keyWord).then(function (resp) {
         if (resp.data.product_list !== null) {
@@ -137,6 +151,14 @@ export default {
       }).catch(function (error) {
         console.error("搜索产品失败:", error);
       })
+    },
+    productStateText(state) {
+      switch(state) {
+        case 0: return '未开始';
+        case 1: return '进行中';
+        case 2: return '已结束';
+        default: return '-';
+      }
     }
   }
 }
@@ -186,10 +208,13 @@ export default {
 .product-footer {
   margin-top: auto;
   margin-bottom: 10px;
-  /* 调整底部距离 */
-  display: flex;
+  /* 调整底部距离 */  display: flex;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.el-breadcrumb {
+  margin: 20px 0;
 }
 
 /* 根据需要添加其他样式 */
@@ -198,5 +223,33 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 20px;
+}
+
+/* 价格样式 */
+.product-info p:nth-child(3) {
+  color: #e57373;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* 当前价格样式 */
+.current-price {
+  color: #409EFF;
+  font-weight: bold;
+}
+
+/* 状态标签样式 */
+.state-label {
+  font-weight: bold;
+  margin-top: 5px;
+}
+.state-0 {
+  color: #909399;
+}
+.state-1 {
+  color: #409EFF;
+}
+.state-2 {
+  color: #f56c6c;
 }
 </style>
