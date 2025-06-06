@@ -105,14 +105,12 @@ export default {
     } catch (error) {
       console.log(error)
     }
-  }, methods: {
-    viewProductDetail(product) {
-      // 跳转到详情页，带上商品信息
+  }, methods: {    viewProductDetail(product) {
+      // 跳转到详情页，只传递是否在竞拍中的状态，商品信息通过API获取
       const isInAuction = this.buyer_auction_pro_id.has(product.product_id);
       this.$router.push({
         path: '/allproduct/detail/' + product.product_id,
         query: {
-          productInfo: JSON.stringify(product),
           isInAuction: isInAuction.toString()
         }
       });

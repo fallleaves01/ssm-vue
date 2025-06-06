@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { UpdateProductInfo, DeleteProduct, GetReleasedProductList } from '@/utils/api/ProductApi';
+import { UpdateProductInfo, DeleteProduct, GetProductInfo } from '@/utils/api/ProductApi';
 import { Close } from '@element-plus/icons-vue';
 import { StartAuction} from "@/utils/api/AuctionApi";
 
@@ -100,22 +100,10 @@ export default {
         dueTime: 0
       }
     };
-  }, created() {
+  },  created() {
     this.productId = this.$route.params.id;
-
-    // 尝试从路由查询参数中获取商品信息
-    const productInfoParam = this.$route.query.productInfo;
-    if (productInfoParam) {
-      try {
-        const product = JSON.parse(productInfoParam);
-        this.loadProductFromParams(product);
-      } catch (e) {
-        console.error('解析商品信息失败:', e);
-        this.loadProductDetail(); // 如果解析失败，则回退到API请求
-      }
-    } else {
-      this.loadProductDetail(); // 如果没有查询参数，则使用API请求
-    }
+    // 直接使用GetProductInfo API获取商品信息
+    this.loadProductDetail();
   },
   methods: {
     // 从传递的参数中加载商品信息
@@ -176,8 +164,7 @@ export default {
       this.editForm.description = this.description;
       this.editForm.startPrice = this.startPrice;
       this.editForm.dueTime = this.dueTime;
-    },
-    //启动开始拍卖
+    },    //启动开始拍卖
     startAuction() {
       let vm = this;
       StartAuction(vm.productId).then(function (resp) {
@@ -186,6 +173,8 @@ export default {
           switch (resp.data.status) {
             case 0:
               vm.$message.success("开始拍卖");
+              // 重新加载商品信息以更新状态
+              vm.loadProductDetail();
               break;
             case 1:
               vm.$message.error("商品正在拍卖中");
@@ -199,35 +188,23 @@ export default {
           }
         }
       });
-    },
-    // 通过API加载商品详情（作为备选方案）
+    },// 通过API加载商品详情
     loadProductDetail() {
       const vm = this;
 
-      // 使用GetReleasedProductList API获取所有已发布商品
-      GetReleasedProductList().then(function (resp) {
-        if (resp.data && resp.data.product_list) {
-          // 在返回的商品列表中查找指定ID的商品
-          const foundProduct = resp.data.product_list.find(
-            product => product.product_id === parseInt(vm.productId, 10) || product.product_id === vm.productId
-          );
-
-          if (foundProduct) {
-            // 找到商品，加载数据
-            vm.loadProductFromParams(foundProduct);
-          } else {
-            // 没找到商品，显示"商品已删除"的提示
-            vm.$message.error('商品不存在或已被删除');
-            vm.productName = '商品不存在';
-            vm.description = '该商品可能已被删除或下架';
-            vm.statusText = '已删除';
-            vm.isActive = false;
-            vm.canEdit = false;
-          }
+      // 直接使用GetProductInfo API获取商品信息
+      GetProductInfo(vm.productId).then(function (resp) {
+        if (resp.data && resp.data) {
+          // 找到商品，加载数据
+          vm.loadProductFromParams(resp.data);
         } else {
-          // API返回异常
-          vm.$message.error('获取商品信息失败');
-          console.error("API返回异常:", resp);
+          // 没找到商品，显示"商品已删除"的提示
+          vm.$message.error('商品不存在或已被删除');
+          vm.productName = '商品不存在';
+          vm.description = '该商品可能已被删除或下架';
+          vm.statusText = '已删除';
+          vm.isActive = false;
+          vm.canEdit = false;
         }
       }).catch(function (error) {
         // 网络错误处理
@@ -247,14 +224,11 @@ export default {
         vm.editForm.startPrice,
         vm.editForm.dueTime
       ).then(function (resp) {
-        if (resp.data) {
-          if (resp.data.status === 0) {
+        if (resp.data) {          if (resp.data.status === 0) {
             vm.$message.success('商品信息修改成功');
             vm.editDialogVisible = false;
-            vm.productName = vm.editForm.productName;
-            vm.description = vm.editForm.description;
-            vm.startPrice = vm.editForm.startPrice;
-            vm.dueTime = vm.editForm.dueTime;
+            // 重新加载商品信息以更新所有数据
+            vm.loadProductDetail();
           } else if (resp.data.status == 1) {
             vm.$message.error('商品不存在');
           } else if (resp.data.status == 2) {

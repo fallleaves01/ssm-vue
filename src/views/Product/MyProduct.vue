@@ -87,17 +87,9 @@ export default {
         console.log(error);
       }
     },    viewProduct(productId) {
-      // 查找对应的商品对象
-      const product = this.productList.find(item => item.product_id === productId);
-      if (product) {
-        // 将商品信息作为路由参数传递
-        this.$router.push({
-          path: '/myproduct/detail/' + productId,
-          query: { productInfo: JSON.stringify(product) }
-        });
-      } else {
-        this.$router.push('/myproduct/detail/' + productId);
-      }
+      this.$router.push({
+        path: '/myproduct/detail/' + productId
+      });
     },
     deleteProduct(productId) {
       let vm = this;

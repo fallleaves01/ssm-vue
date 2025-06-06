@@ -33,6 +33,7 @@
 <script>
 import { Bid } from '@/utils/api/AuctionApi';
 import { GetUserInfo } from '@/utils/api/UserApi';
+import { GetProductInfo } from '@/utils/api/ProductApi';
 
 export default {
   data() {
@@ -43,20 +44,32 @@ export default {
       minBidPrice: 0,
       userName: ''
     };
-  },
-  created() {
+  },  created() {
+    const vm = this;
     // 获取路由参数
-    const productInfo = this.$route.query.productInfo;
+    const productId = this.$route.params.product_id;
     const auctionInfo = this.$route.query.auctionInfo;
-    if (productInfo) {
-      this.product = JSON.parse(productInfo);
-    }
+    
     if (auctionInfo) {
       this.auction = JSON.parse(auctionInfo);
     }
     
+    // 使用GetProductInfo接口获取商品信息
+    GetProductInfo(productId).then(function(resp) {
+      if (resp.data && resp.data) {
+        vm.product = resp.data;
+        // 设置最低出价为商品current_price+1（若有），否则为起拍价
+        const basePrice = vm.product.current_price ? Number(vm.product.current_price) : Number(vm.product.start_price);
+        vm.minBidPrice = basePrice + 1;
+        vm.bidPrice = vm.minBidPrice;
+      } else {
+        vm.$message.error('获取商品信息失败');
+      }
+    }).catch(function(error) {
+      vm.$message.error('获取商品信息失败');
+    });
+    
     // 使用GetUserInfo接口获取用户名
-    const vm = this;
     GetUserInfo().then(function(resp) {
       if (resp.data && resp.data.user_name) {
         vm.userName = resp.data.user_name;
@@ -66,14 +79,8 @@ export default {
     }).catch(function(error) {
       vm.$message.error('获取用户信息失败');
     });
-    
-    // 设置最低出价为商品current_price+1（若有），否则为起拍价
-    const basePrice = this.product.current_price ? Number(this.product.current_price) : Number(this.product.start_price);
-    this.minBidPrice = basePrice + 1;
-    this.bidPrice = this.minBidPrice;
   },
-  methods: {
-    submitBid() {
+  methods: {    submitBid() {
       if (!this.bidPrice || this.bidPrice < this.minBidPrice) {
         this.$message.error('请输入有效的竞价（必须高于当前最高价）');
         return;
@@ -85,8 +92,17 @@ export default {
           // 更新本地最高价和次数
           vm.auction.max_bid_price = vm.bidPrice;
           vm.auction.bid_count = (parseInt(vm.auction.bid_count) || 0) + 1;
-          vm.minBidPrice = Number(vm.bidPrice) + 1;
-          vm.bidPrice = vm.minBidPrice;
+          
+          // 重新获取商品信息，更新最新的竞拍状态
+          GetProductInfo(vm.product.product_id).then(function(resp) {
+            if (resp.data && resp.data.product) {
+              vm.product = resp.data.product;
+              // 重新计算最低出价
+              const basePrice = vm.product.current_price ? Number(vm.product.current_price) : Number(vm.product.start_price);
+              vm.minBidPrice = basePrice + 1;
+              vm.bidPrice = vm.minBidPrice;
+            }
+          });
         } else {
           vm.$message.error(resp.data.msg || '出价失败');
         }

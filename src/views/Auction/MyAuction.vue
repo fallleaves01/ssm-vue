@@ -74,13 +74,11 @@ export default {
         vm.productList = [];
         vm.auctionList = [];
       });
-    },
-    viewAuctionDetail(product, auction) {
-      // 跳转到详情页，带上商品和竞拍信息
+    },    viewAuctionDetail(product, auction) {
+      // 跳转到详情页，只传递竞拍信息，商品信息通过API获取
       this.$router.push({
         path: '/myauction/detail/' + product.product_id,
         query: {
-          productInfo: JSON.stringify(product),
           auctionInfo: JSON.stringify(auction)
         }
       });

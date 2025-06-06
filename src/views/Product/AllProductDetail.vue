@@ -30,6 +30,7 @@
 <script>
 import { EnterAuction } from '@/utils/api/AuctionApi';
 import { GetUserInfo } from '@/utils/api/UserApi';
+import { GetProductInfo } from '@/utils/api/ProductApi';
 
 export default {
   data() {
@@ -38,19 +39,24 @@ export default {
       userName: '',
       isInAuction: false
     };
-  },
-  created() {
-    // 获取路由参数
-    const productInfo = this.$route.query.productInfo;
+  },  created() {
+    const vm = this;
+    const productId = this.$route.params.id;
     const isInAuction = this.$route.query.isInAuction === 'true';
+    this.isInAuction = isInAuction;
     
-    if (productInfo) {
-      this.product = JSON.parse(productInfo);
-      this.isInAuction = isInAuction;
-    }
+    // 使用GetProductInfo接口获取商品信息
+    GetProductInfo(productId).then(function(resp) {
+      if (resp.data && resp.data) {
+        vm.product = resp.data;
+      } else {
+        vm.$message.error('获取商品信息失败');
+      }
+    }).catch(function(error) {
+      vm.$message.error('获取商品信息失败');
+    });
     
     // 使用GetUserInfo接口获取用户名
-    const vm = this;
     GetUserInfo().then(function(resp) {
       if (resp.data && resp.data.user_name) {
         vm.userName = resp.data.user_name;
@@ -61,8 +67,7 @@ export default {
       vm.$message.error('获取用户信息失败');
     });
   },
-  methods: {
-    enterAuction() {
+  methods: {    enterAuction() {
       const vm = this;
       EnterAuction(this.product.product_id).then(function(resp) {
         console.log(resp);
@@ -70,6 +75,12 @@ export default {
           case 0:
             vm.$message.success("您已成功加入竞拍");
             vm.isInAuction = true;
+            // 重新获取商品信息，确保状态是最新的
+            GetProductInfo(vm.product.product_id).then(function(productResp) {
+              if (productResp.data && productResp.data.product) {
+                vm.product = productResp.data.product;
+              }
+            });
             break;
           case 1:
             vm.$message.error("商品拍卖未开始");
