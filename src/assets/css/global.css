@@ -3,3 +3,42 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* 全局卡片样式保证 - 解决服务器部署时卡片宽度问题 */
+.el-card {
+    width: 100%;
+    min-width: 300px !important;
+    box-sizing: border-box;
+}
+
+/* 确保按钮在卡片中正确显示 */
+.el-card .el-button {
+    min-width: 90px;
+    margin: 5px;
+}
+
+/* 产品和拍卖卡片样式 */
+.product-card, .auction-card {
+    height: 100%;
+    display: flex !important;
+    flex-direction: column;
+}
+
+/* 卡片列样式 */
+.product-col, .auction-col {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+/* 特别针对窄屏设备的样式 */
+@media screen and (max-width: 768px) {
+    .el-row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .el-col {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+}

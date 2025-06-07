@@ -2,9 +2,8 @@
   <el-breadcrumb separator-class="el-icon-arrow-right">
     <el-breadcrumb-item :to="{ path: '/homePage' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item>我的竞拍</el-breadcrumb-item>
-  </el-breadcrumb>
-  <div class="auction-home">
-    <el-row :gutter="20">      <el-col :span="8" v-for="(product, idx) in productList" :key="product.product_id" class="auction-col">
+  </el-breadcrumb>  <div class="auction-home">
+    <el-row :gutter="20">      <el-col :span="24" :sm="12" :md="8" v-for="(product, idx) in productList" :key="product.product_id" class="auction-col">
         <el-card class="auction-card" shadow="hover">
           <div class="auction-image-container">
             <img :src="product.image" alt="商品图片" class="auction-cover" />
@@ -105,8 +104,17 @@ export default {
 <style scoped>
 .auction-home {
   padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.auction-col {
+  margin-bottom: 20px;
+  display: flex;
 }
 .auction-card {
+  width: 100%;
+  min-width: 300px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -143,8 +151,16 @@ export default {
   margin-top: auto;
   margin-bottom: 10px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+}
+
+/* 确保按钮有足够宽度 */
+.auction-footer .el-button {
+  min-width: 100px;
+  margin: 5px;
 }
 .price {
   color: #e57373;

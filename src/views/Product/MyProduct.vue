@@ -19,11 +19,10 @@
           </el-col>
         </el-row>
       </div>
-    </div>    <!-- 我的商品列表 -->
-    <div class="product-list">
+    </div>    <!-- 我的商品列表 -->    <div class="product-list">
       <el-row :gutter="20">
         <!-- 添加商品卡片 -->
-        <el-col :span="8">
+        <el-col :span="24" :sm="12" :md="8" class="product-col">
           <el-card class="product-card add-product-card" shadow="hover" @click="createProduct">
             <div class="add-product-content">
               <el-icon class="add-icon"><Plus /></el-icon>
@@ -32,7 +31,7 @@
           </el-card>
         </el-col>
           <!-- 商品列表 -->
-        <el-col :span="8" v-for="product in productList" :key="product.product_id" class="product-col">
+        <el-col :span="24" :sm="12" :md="8" v-for="product in productList" :key="product.product_id" class="product-col">
           <el-card class="product-card" shadow="hover">
             <div class="product-image-container">
               <img :src="product.image" alt="商品图片" class="product-cover" />
@@ -168,8 +167,16 @@ export default {
   margin-top: auto;
   margin-bottom: 10px; /* 调整底部距离 */
   display: flex;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  gap: 10px;
+}
+
+/* 确保按钮有足够宽度 */
+.product-footer .el-button {
+  min-width: 90px;
+  margin: 5px;
 }
 
 .el-breadcrumb {
@@ -184,6 +191,12 @@ export default {
   padding: 20px;
 }
 
+.product-list {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 /* 价格样式 */
 .product-info p:nth-child(3) {
   color: #e57373;
@@ -193,6 +206,14 @@ export default {
 
 .product-col {
   margin-bottom: 20px;
+  display: flex;
+}
+
+.product-card {
+  width: 100%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-image-container {

@@ -21,9 +21,8 @@
           </el-col>
         </el-row>
       </div>
-    </div>    <!-- 全部商品列表 -->
-    <div class="product-list">      <el-row :gutter="20">
-        <el-col :span="8" v-for="product in productList" :key="product.product_id" class="product-col">
+    </div>    <!-- 全部商品列表 -->    <div class="product-list">      <el-row :gutter="20">
+        <el-col :span="24" :sm="12" :md="8" v-for="product in productList" :key="product.product_id" class="product-col">
           <el-card class="product-card" shadow="hover">
             <div class="product-image-container">
               <img :src="product.image" alt="商品图片" class="product-cover" />
@@ -208,9 +207,12 @@ export default {
 .product-footer {
   margin-top: auto;
   margin-bottom: 10px;
-  /* 调整底部距离 */  display: flex;
-  justify-content: space-evenly;
+  /* 调整底部距离 */  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 
 .el-breadcrumb {
@@ -225,8 +227,22 @@ export default {
   padding: 20px;
 }
 
+.product-list {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .product-col {
   margin-bottom: 20px;
+  display: flex;
+}
+
+.product-card {
+  width: 100%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-image-container {
@@ -265,5 +281,11 @@ export default {
 }
 .state-2 {
   color: #f56c6c;
+}
+
+/* 确保按钮有足够宽度 */
+.product-footer .el-button {
+  min-width: 90px;
+  margin: 5px;
 }
 </style>
