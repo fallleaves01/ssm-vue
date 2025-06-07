@@ -48,10 +48,8 @@
 
         <el-form-item label="重复密码" prop="rpwd">
           <el-input type="password" v-model="regForm.rpwd" placeholder="请再次输入密码"></el-input>
-        </el-form-item>
-
-        <el-form-item label="手机号" prop="phone">
-          <el-input v-model="regForm.phone" placeholder="可选"></el-input>
+        </el-form-item>        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="regForm.phone" placeholder="请输入手机号"></el-input>
         </el-form-item>
 
         <el-form-item label="邮箱" prop="email">
@@ -141,8 +139,7 @@ export default {
         phone: '',
         email: '',
         payment_info: ''
-      },
-      regRules: {
+      },      regRules: {
         userName: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
           {min: 1, max: 9, message: '长度在1到9个字符', trigger: 'blur'}
@@ -154,8 +151,11 @@ export default {
         rpwd: [
           {required: true, message: '请再次输入密码', trigger: 'blur'},
           {min: 1, max: 9, message: '长度在1到9个字符', trigger: 'blur'}
+        ],
+        phone: [
+          {required: true, message: '请输入手机号', trigger: 'blur'}
         ]
-        // phone、email、payment_info 不做必填和格式校验
+        // email、payment_info 不做必填和格式校验
       },
     };
   },
