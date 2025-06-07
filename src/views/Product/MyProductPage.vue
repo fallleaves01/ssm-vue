@@ -345,12 +345,20 @@ export default {
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 320px;
+  height: 320px;
 }
 
 .product-cover img {
   width: 300px;
-  max-height: 300px;
-  object-fit: cover;
+  height: 300px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 .product-info {

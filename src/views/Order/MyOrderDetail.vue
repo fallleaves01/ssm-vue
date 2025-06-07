@@ -295,13 +295,22 @@ export default {
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
+  background-color: #f8f8f8;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  border: 1px solid #ebeef5;
+  overflow: hidden;
 }
 
 .product-image img {
-  max-width: 100%;
-  max-height: 300px;
+  width: 260px;
+  height: 260px;
   object-fit: contain;
-  border-radius: 4px;
+  display: block;
+  margin: 0 auto;
 }
 
 .product-name {

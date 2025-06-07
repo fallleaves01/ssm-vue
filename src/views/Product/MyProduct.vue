@@ -31,11 +31,10 @@
             </div>
           </el-card>
         </el-col>
-        
-        <!-- 商品列表 -->
-        <el-col :span="8" v-for="product in productList" :key="product.product_id">
+          <!-- 商品列表 -->
+        <el-col :span="8" v-for="product in productList" :key="product.product_id" class="product-col">
           <el-card class="product-card" shadow="hover">
-            <div slot="header">
+            <div class="product-image-container">
               <img :src="product.image" alt="商品图片" class="product-cover" />
             </div>
             <div class="product-info">
@@ -141,8 +140,11 @@ export default {
 
 .product-cover {
   width: 100%;
-  max-height: 200px;
-  object-fit: cover;
+  height: 200px;
+  object-fit: contain;
+  background-color: #f8f8f8;
+  display: block;
+  margin: 0 auto;
 }
 
 .product-info {
@@ -187,6 +189,20 @@ export default {
   color: #e57373;
   font-weight: bold;
   margin-top: 10px;
+}
+
+.product-col {
+  margin-bottom: 20px;
+}
+
+.product-image-container {
+  height: 220px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ebeef5;
 }
 
 /* 添加商品卡片样式 */

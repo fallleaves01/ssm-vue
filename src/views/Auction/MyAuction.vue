@@ -4,10 +4,9 @@
     <el-breadcrumb-item>我的竞拍</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="auction-home">
-    <el-row :gutter="20">
-      <el-col :span="8" v-for="(product, idx) in productList" :key="product.product_id">
+    <el-row :gutter="20">      <el-col :span="8" v-for="(product, idx) in productList" :key="product.product_id" class="auction-col">
         <el-card class="auction-card" shadow="hover">
-          <div slot="header">
+          <div class="auction-image-container">
             <img :src="product.image" alt="商品图片" class="auction-cover" />
           </div>
           <div class="auction-info">
@@ -114,8 +113,11 @@ export default {
 }
 .auction-cover {
   width: 100%;
-  max-height: 200px;
-  object-fit: cover;
+  height: 200px;
+  object-fit: contain;
+  background-color: #f8f8f8;
+  display: block;
+  margin: 0 auto;
 }
 .auction-info {
   padding: 20px;
